@@ -1,0 +1,144 @@
+/* Token dal file Figma Movinder (collezioni Colore e Dimensioni) */
+:root {
+  --sfondo-app: #000000;
+  --superficie-pannello: #17171c;
+  --superficie-retro: #0d0d12;
+  --vetro-fondo: #14141a8c;
+  --vetro-bordo: #ffffff24;
+  --vetro-fondo-premuto: #3a3a46a6;
+  --velo-scuro: #000000b8;
+  --testo-primario: #ffffff;
+  --testo-secondario: #ffffffbf;
+  --testo-terziario: #ffffff8c;
+  --testo-su-chiaro: #000000;
+  --azione-primaria: #ffffff;
+  --azione-primaria-premuta: #ffffffbf;
+  --azione-secondaria: #ffffff14;
+  --azione-pericolo: #f75c5c;
+  --etichetta-imdb: #f5c518;
+  --voto-like: #ef4444;
+  --voto-like-velo: #73080f99;
+  --voto-dislike: #22d3ee;
+  --voto-dislike-velo: #08414a99;
+  --voto-da-vedere: #facc15;
+  --voto-da-vedere-velo: #73540099;
+
+  --spazio-pagina: 20px;
+  --spazio-carta: 12px;
+  --spazio-icona: 8px;
+  --spazio-elemento: 12px;
+  --spazio-blocco: 16px;
+  --spazio-gruppo: 24px;
+  --spazio-sezione: 32px;
+  --raggio-pillola: 999px;
+  --raggio-carta: 28px;
+  --raggio-copertina: 14px;
+  --raggio-copertina-piccola: 12px;
+  --raggio-etichetta: 4px;
+  --misura-bolla: 56px;
+  --misura-pulsante: 52px;
+  --misura-foto-attore: 72px;
+  --misura-attore-larghezza: 88px;
+  --area-sicura-alto: 54px;
+  --area-sicura-basso: 34px;
+  --contenuto-spazio-sotto-barra: 114px;
+  --durata-rapida: 0.18s;
+  --durata-media: 0.3s;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { height: 100%; }
+body {
+  background: #1b1b1f;
+  color: var(--testo-primario);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+img { display: block; user-select: none; -webkit-user-drag: none; }
+
+/* Stili di testo */
+.t-titolo-pagina { font-size: 30px; font-weight: 700; line-height: 36px; }
+.t-titolo-carta { font-size: 26px; font-weight: 700; line-height: 31px; }
+.t-titolo-pannello { font-size: 22px; font-weight: 700; line-height: 27px; }
+.t-titolo-sezione { font-size: 18px; font-weight: 600; line-height: 22px; }
+.t-pulsante { font-size: 16px; font-weight: 600; line-height: 20px; }
+.t-corpo { font-size: 15px; font-weight: 500; line-height: 22px; }
+.t-pillola { font-size: 14px; font-weight: 500; line-height: 17px; }
+.t-etichetta { font-size: 13px; font-weight: 600; line-height: 16px; }
+.t-didascalia { font-size: 12px; font-weight: 500; line-height: 16px; }
+.t-badge { font-size: 12px; font-weight: 800; line-height: 15px; }
+.c-sec { color: var(--testo-secondario); }
+.c-ter { color: var(--testo-terziario); }
+
+/* Telefono: a tutto schermo su mobile, cornice su desktop */
+.stage { min-height: 100%; display: grid; place-items: center; padding: 24px; }
+.telefono {
+  position: relative; width: 393px; height: 852px; overflow: hidden;
+  background: var(--sfondo-app); border-radius: 48px;
+  box-shadow: 0 0 0 10px #2a2a30, 0 30px 80px #000a;
+}
+@media (max-width: 500px) {
+  .stage { padding: 0; display: block; }
+  .telefono { width: 100vw; height: 100dvh; border-radius: 0; box-shadow: none; }
+}
+.schermata { position: absolute; inset: 0; background: var(--sfondo-app); isolation: isolate; }
+.scorre { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
+.scorre::-webkit-scrollbar, .fila::-webkit-scrollbar { display: none; }
+
+/* Vetro */
+.vetro {
+  background: var(--vetro-fondo);
+  border: 1px solid var(--vetro-bordo);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+}
+
+/* Barra a bolle */
+.barra { position: absolute; left: 16px; right: 16px; bottom: var(--area-sicura-basso); display: flex; justify-content: space-between; align-items: center; gap: 8px; z-index: 20; pointer-events: none; }
+.barra > * { pointer-events: auto; }
+.bolla { width: var(--misura-bolla); height: var(--misura-bolla); border-radius: var(--raggio-pillola); display: grid; place-items: center; transition: background var(--durata-rapida); }
+.bolla:active { background: var(--vetro-fondo-premuto); }
+.pillola-barra { height: var(--misura-bolla); border-radius: var(--raggio-pillola); padding: 6px; display: flex; gap: 4px; }
+.pulsante-barra { width: 48px; height: 44px; border-radius: var(--raggio-pillola); display: grid; place-items: center; transition: background var(--durata-rapida); }
+.pulsante-barra.attivo, .pulsante-barra:active { background: var(--vetro-fondo-premuto); }
+.pulsante-barra:disabled { cursor: default; }
+.pulsante-barra:disabled:active { background: none; }
+
+/* Pulsante */
+.pulsante { height: var(--misura-pulsante); border-radius: var(--raggio-pillola); padding: 0 16px; width: 100%; display: flex; align-items: center; justify-content: center; }
+.pulsante.principale { background: var(--azione-primaria); color: var(--testo-su-chiaro); }
+.pulsante.principale:active { background: var(--azione-primaria-premuta); }
+.pulsante.secondario { background: var(--azione-secondaria); }
+.pulsante.pericolo { background: var(--azione-pericolo); }
+
+/* Pillola di scelta */
+.pillola { padding: 8px 16px; border-radius: var(--raggio-pillola); border: 1px solid var(--vetro-bordo); background: transparent; white-space: nowrap; transition: background var(--durata-rapida), color var(--durata-rapida); }
+.pillola.scelta { background: var(--azione-primaria); color: var(--testo-su-chiaro); border-color: transparent; }
+
+/* Etichetta IMDb */
+.imdb { background: var(--etichetta-imdb); color: #000; border-radius: var(--raggio-etichetta); padding: 2px 6px; }
+
+/* File che scorrono */
+.sezione-fila { display: flex; flex-direction: column; gap: 12px; }
+.sezione-fila > h2 { padding: 0 var(--spazio-pagina); }
+.fila { display: flex; gap: 12px; overflow-x: auto; padding: 0 var(--spazio-pagina); scroll-snap-type: x mandatory; scroll-padding: 0 var(--spazio-pagina); scrollbar-width: none; }
+.fila > * { scroll-snap-align: start; flex: none; }
+.copertina-fila { width: 128px; display: flex; flex-direction: column; gap: 8px; text-align: left; }
+.copertina-fila .img { position: relative; width: 128px; height: 192px; border-radius: var(--raggio-copertina-piccola); overflow: hidden; background: var(--superficie-pannello); }
+.copertina-fila img { width: 100%; height: 100%; object-fit: cover; }
+.voto-angolo { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 999px; display: grid; place-items: center; background: var(--velo-scuro); }
+
+.attore { width: var(--misura-attore-larghezza); display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.attore img { width: var(--misura-foto-attore); height: var(--misura-foto-attore); border-radius: 999px; object-fit: cover; background: var(--superficie-pannello); }
+
+.genere { position: relative; width: 160px; height: 96px; border-radius: var(--raggio-copertina-piccola); overflow: hidden; }
+.genere img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(2px) brightness(0.45); transform: scale(1.1); }
+.genere span { position: absolute; left: 12px; bottom: 10px; }
+
+/* Pannello dal basso */
+.velo-pannello { position: absolute; inset: 0; background: var(--velo-scuro); z-index: 40; }
+.pannello { position: absolute; left: 0; right: 0; bottom: 0; z-index: 41; background: var(--superficie-pannello); border-radius: var(--raggio-carta) var(--raggio-carta) 0 0; padding: 12px var(--spazio-pagina) var(--area-sicura-basso); display: flex; flex-direction: column; gap: var(--spazio-gruppo); }
+.maniglia { width: 40px; height: 4px; border-radius: 999px; background: var(--vetro-bordo); margin: 0 auto; }
+.gruppo-pillole { display: flex; flex-wrap: wrap; gap: 8px; }
