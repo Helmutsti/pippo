@@ -3,6 +3,7 @@ import { useStore } from '../store.jsx'
 import Carosello from '../components/Carosello.jsx'
 import { FilaCopertine } from '../components/Pezzi.jsx'
 import { BarraHome } from '../components/Barra.jsx'
+import Fila from '../components/Fila.jsx'
 
 export default function Home({ onApri, onFiltri, onWizard, scrollRef }) {
   const { voti, filtri, setFiltri } = useStore()
@@ -38,7 +39,7 @@ export default function Home({ onApri, onFiltri, onWizard, scrollRef }) {
 
           <section className="sezione-fila">
             <h2 className="t-titolo-sezione">Generi</h2>
-            <div className="fila">
+            <Fila>
               {GENERI.map((g) => (
                 <div key={g.nome} className="genere">
                   <img src={g.poster} alt="" loading="lazy" />
@@ -46,7 +47,7 @@ export default function Home({ onApri, onFiltri, onWizard, scrollRef }) {
                 </div>
               ))}
               <span style={{ width: 8 }} />
-            </div>
+            </Fila>
           </section>
         </div>
       </div>

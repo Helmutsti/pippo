@@ -1,6 +1,7 @@
 import { Bookmark, Heart, ThumbsDown } from 'lucide-react'
 import { TITOLI, cast } from '../data.js'
 import { useStore } from '../store.jsx'
+import Fila from './Fila.jsx'
 
 const SEGNO = {
   like: [Heart, 'var(--voto-like)'],
@@ -23,7 +24,7 @@ export function FilaCopertine({ titolo, ids, onApri, senzaVoto }) {
   return (
     <section className="sezione-fila">
       <h2 className="t-titolo-sezione">{titolo}</h2>
-      <div className="fila">
+      <Fila>
         {ids.map((id) => {
           const t = TITOLI[id]
           const v = !senzaVoto && voti[id]
@@ -41,7 +42,7 @@ export function FilaCopertine({ titolo, ids, onApri, senzaVoto }) {
           )
         })}
         <span style={{ width: 8 }} />
-      </div>
+      </Fila>
     </section>
   )
 }
@@ -53,14 +54,14 @@ export function FilaCast({ titolo }) {
   return (
     <section className="sezione-fila">
       <h2 className="t-etichetta c-ter" style={{ padding: '0 var(--spazio-pagina)' }}>Cast</h2>
-      <div className="fila" style={{ gap: 8 }}>
+      <Fila style={{ gap: 8 }}>
         {persone.map((p) => (
           <div key={p.nome} className="attore">
             <img src={p.foto} alt="" loading="lazy" />
             <span className="t-didascalia">{p.nome}<br /><span className="c-ter">({p.personaggio})</span></span>
           </div>
         ))}
-      </div>
+      </Fila>
     </section>
   )
 }

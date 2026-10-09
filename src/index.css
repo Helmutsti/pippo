@@ -123,7 +123,7 @@ img { display: block; user-select: none; -webkit-user-drag: none; }
 /* File che scorrono */
 .sezione-fila { display: flex; flex-direction: column; gap: 12px; }
 .sezione-fila > h2 { padding: 0 var(--spazio-pagina); }
-.fila { display: flex; gap: 12px; overflow-x: auto; padding: 0 var(--spazio-pagina); scroll-snap-type: x mandatory; scroll-padding: 0 var(--spazio-pagina); scrollbar-width: none; }
+.fila { display: flex; gap: 12px; overflow-x: auto; cursor: grab; user-select: none; overscroll-behavior-x: contain; padding: 0 var(--spazio-pagina); scroll-snap-type: x mandatory; scroll-padding: 0 var(--spazio-pagina); scrollbar-width: none; }
 .fila > * { scroll-snap-align: start; flex: none; }
 .copertina-fila { width: 128px; display: flex; flex-direction: column; gap: 8px; text-align: left; }
 .copertina-fila .img { position: relative; width: 128px; height: 192px; border-radius: var(--raggio-copertina-piccola); overflow: hidden; background: var(--superficie-pannello); }

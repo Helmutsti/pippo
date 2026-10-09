@@ -198,7 +198,7 @@ function Carta({ t, attiva, offset, x, y, girata, segnalibro, onTap, onDragEnd, 
               <p className="t-corpo c-sec">{t.trama}</p>
             </div>
             {/* Il cast scorre in orizzontale senza girare la carta */}
-            <div onPointerDownCapture={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()}>
+            <div onClick={(e) => e.stopPropagation()}>
               <FilaCast titolo={t} />
             </div>
           </div>
