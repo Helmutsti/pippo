@@ -14,7 +14,7 @@ export default function Scheda({ id, onIndietro, onApri }) {
         <div style={{ position: 'relative', height: 440, overflow: 'hidden' }}>
           <img src={t.poster} alt="" style={{ position: 'absolute', inset: -60, width: 'calc(100% + 120px)', height: 560, objectFit: 'cover', filter: 'blur(40px)' }} />
           <img src={t.poster} alt={t.titolo} style={{
-            position: 'absolute', left: 50, top: 0, width: 293, height: 440, objectFit: 'cover',
+            position: 'absolute', left: 'calc(50% - 146.5px)', top: 0, width: 293, height: 440, objectFit: 'cover',
             WebkitMaskImage: 'linear-gradient(to right, transparent, #000 18%, #000 82%, transparent)',
             maskImage: 'linear-gradient(to right, transparent, #000 18%, #000 82%, transparent)',
           }} />

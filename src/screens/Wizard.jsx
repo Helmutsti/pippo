@@ -5,12 +5,13 @@ import { TITOLI, WIZARD } from '../data.js'
 import { useStore } from '../store.jsx'
 import { FilaCast, Imdb } from '../components/Pezzi.jsx'
 import { BarraWizard } from '../components/Barra.jsx'
+import { useSchermo } from '../schermo.js'
 
 // Wizard per scoprire nuovi titoli.
 // Gesti per direzione del dito: destra = mi è piaciuto, sinistra = non mi è piaciuto,
 // su = successivo, giù = precedente; tocco = gira la carta. Da tastiera: frecce, spazio, B, Esc.
-const CARTA = { x: 12, y: 104, w: 369, h: 640 }
-const PASSO_Y = CARTA.h + 12
+// Carta: 12 dai lati, 104 dall'alto, 108 dal fondo (come nel disegno a 393 × 852)
+const misureCarta = ({ larghezza, altezza }) => ({ x: 12, y: 104, w: larghezza - 24, h: altezza - 104 - 108 })
 const SOGLIA_X = 110
 const SOGLIA_Y = 90
 const MOLLA = { type: 'spring', stiffness: 320, damping: 34 }
@@ -30,6 +31,9 @@ export default function Wizard({ onInterrompi, inPausa }) {
   const occupato = useRef(false)
   const x = useMotionValue(0)
   const y = useMotionValue(0)
+  const schermo = useSchermo()
+  const CARTA = misureCarta(schermo)
+  const PASSO_Y = CARTA.h + 12
 
   // Quando cambia carta, la nuova prende il posto della vecchia senza salti
   useLayoutEffect(() => { x.set(0); y.set(0); setGirata(false); setSegnalibro(false) }, [indice, x, y])
@@ -42,7 +46,7 @@ export default function Wizard({ onInterrompi, inPausa }) {
     if (nuovo < 0) { await animate(y, 0, MOLLA); return }
     await animate(y, -verso * PASSO_Y, { type: 'spring', stiffness: 260, damping: 32, restDelta: 1 })
     setIndice(nuovo)
-  }, [indice, y])
+  }, [indice, y, PASSO_Y])
 
   const dai = useCallback(async (voto) => {
     if (occupato.current || finito) return
@@ -109,19 +113,19 @@ export default function Wizard({ onInterrompi, inPausa }) {
       {[-1, 0, 1].map((d) => {
         const tid = WIZARD[indice + d]
         if (!tid) {
-          if (d === 1 && !finito) return <Fine key="fine" y={y} offset={PASSO_Y} onFine={onInterrompi} />
+          if (d === 1 && !finito) return <Fine key="fine" carta={CARTA} y={y} offset={PASSO_Y} onFine={onInterrompi} />
           return null
         }
         return (
-          <Carta key={tid} t={TITOLI[tid]} attiva={d === 0} offset={d * PASSO_Y} x={x} y={y}
+          <Carta key={tid} carta={CARTA} t={TITOLI[tid]} attiva={d === 0} offset={d * PASSO_Y} x={x} y={y}
             girata={d === 0 && girata} segnalibro={d === 0 && segnalibro}
             onTap={() => setGirata((g) => !g)} onDragEnd={fineTrascinamento} occupato={occupato} />
         )
       })}
-      {finito && <Fine y={y} offset={0} onFine={onInterrompi} />}
+      {finito && <Fine carta={CARTA} y={y} offset={0} onFine={onInterrompi} />}
 
       <AnimatePresence>
-        {bolle.map((b) => <Bolla key={b.chiave} {...b} onFine={() => setBolle((bb) => bb.filter((x) => x.chiave !== b.chiave))} />)}
+        {bolle.map((b) => <Bolla key={b.chiave} {...b} carta={CARTA} onFine={() => setBolle((bb) => bb.filter((x) => x.chiave !== b.chiave))} />)}
       </AnimatePresence>
 
       <BarraWizard onIndietro={onInterrompi} onSegnalibro={salva} />
@@ -129,7 +133,7 @@ export default function Wizard({ onInterrompi, inPausa }) {
   )
 }
 
-function Carta({ t, attiva, offset, x, y, girata, segnalibro, onTap, onDragEnd, occupato }) {
+function Carta({ carta: CARTA, t, attiva, offset, x, y, girata, segnalibro, onTap, onDragEnd, occupato }) {
   const yCarta = useTransform(y, (v) => v + offset)
   const xCarta = useTransform(x, (v) => (attiva ? v : 0))
   const rotate = useTransform(xCarta, [-300, 300], [-12, 12])
@@ -209,7 +213,7 @@ function Carta({ t, attiva, offset, x, y, girata, segnalibro, onTap, onDragEnd, 
 }
 
 // Dopo il voto il segno sale ondeggiando, si rimpicciolisce e sparisce come una bolla di sapone
-function Bolla({ voto, partenzaX, onFine }) {
+function Bolla({ carta: CARTA, voto, partenzaX, onFine }) {
   const { Icona, colore } = VOTI[voto]
   return (
     <motion.div
@@ -217,14 +221,14 @@ function Bolla({ voto, partenzaX, onFine }) {
       animate={{ x: [partenzaX, partenzaX - 14, partenzaX + 12, partenzaX - 8, partenzaX], y: -380, scale: 0.35, opacity: 0 }}
       transition={{ duration: 0.9, ease: 'easeOut', x: { duration: 0.9, ease: 'easeInOut' }, opacity: { duration: 0.9, ease: 'easeIn' } }}
       onAnimationComplete={onFine}
-      style={{ position: 'absolute', left: 393 / 2 - 60, top: CARTA.y + CARTA.h / 2 - 60, zIndex: 30, pointerEvents: 'none' }}
+      style={{ position: 'absolute', left: CARTA.x + CARTA.w / 2 - 60, top: CARTA.y + CARTA.h / 2 - 60, zIndex: 30, pointerEvents: 'none' }}
     >
       <Icona size={120} color={colore} fill={colore} style={ombraIcona} />
     </motion.div>
   )
 }
 
-function Fine({ y, offset, onFine }) {
+function Fine({ carta: CARTA, y, offset, onFine }) {
   const yFine = useTransform(y, (v) => v + offset)
   return (
     <motion.div style={{ position: 'absolute', left: CARTA.x, top: CARTA.y, width: CARTA.w, height: CARTA.h, y: yFine, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 16, padding: 32, textAlign: 'center' }}>

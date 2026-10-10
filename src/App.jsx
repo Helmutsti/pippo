@@ -18,8 +18,7 @@ export default function App() {
 
   return (
     <StoreProvider>
-      <div className="stage">
-        <div className="telefono">
+      <div className="telefono">
           <Home
             scrollRef={scrollHome}
             onApri={(id) => apri({ nome: 'scheda', id, chiave: Date.now() })}
@@ -49,7 +48,6 @@ export default function App() {
             {pannello === 'filtri' && <Filtri key="filtri" onChiudi={() => setPannello(null)} />}
             {pannello === 'conferma' && <Conferma key="conferma" onContinua={() => setPannello(null)} onInterrompi={allaHome} />}
           </AnimatePresence>
-        </div>
       </div>
     </StoreProvider>
   )

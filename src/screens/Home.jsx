@@ -1,7 +1,7 @@
 import { FILE_HOME, FILTRI_VUOTI, GENERI, SUGGERIMENTI, TITOLI, rispettaFiltri } from '../data.js'
 import { useStore } from '../store.jsx'
 import Carosello from '../components/Carosello.jsx'
-import { FilaCopertine } from '../components/Pezzi.jsx'
+import { FilaCopertine, TestaSezione } from '../components/Pezzi.jsx'
 import { BarraHome } from '../components/Barra.jsx'
 import Fila from '../components/Fila.jsx'
 
@@ -38,7 +38,7 @@ export default function Home({ onApri, onFiltri, onWizard, scrollRef }) {
           })}
 
           <section className="sezione-fila">
-            <h2 className="t-titolo-sezione">Generi</h2>
+            <TestaSezione titolo="Generi" />
             <Fila>
               {GENERI.map((g) => (
                 <div key={g.nome} className="genere">

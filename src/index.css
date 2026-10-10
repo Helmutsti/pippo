@@ -50,7 +50,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body, #root { height: 100%; }
 body {
-  background: #1b1b1f;
+  background: var(--sfondo-app);
   color: var(--testo-primario);
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -74,17 +74,8 @@ img { display: block; user-select: none; -webkit-user-drag: none; }
 .c-sec { color: var(--testo-secondario); }
 .c-ter { color: var(--testo-terziario); }
 
-/* Telefono: a tutto schermo su mobile, cornice su desktop */
-.stage { min-height: 100%; display: grid; place-items: center; padding: 24px; }
-.telefono {
-  position: relative; width: 393px; height: 852px; overflow: hidden;
-  background: var(--sfondo-app); border-radius: 48px;
-  box-shadow: 0 0 0 10px #2a2a30, 0 30px 80px #000a;
-}
-@media (max-width: 500px) {
-  .stage { padding: 0; display: block; }
-  .telefono { width: 100vw; height: 100dvh; border-radius: 0; box-shadow: none; }
-}
+/* Telefono: l'app occupa tutto lo schermo */
+.telefono { position: fixed; inset: 0; overflow: hidden; background: var(--sfondo-app); }
 .schermata { position: absolute; inset: 0; background: var(--sfondo-app); isolation: isolate; }
 .scorre { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
 .scorre::-webkit-scrollbar, .fila::-webkit-scrollbar { display: none; }
@@ -124,6 +115,8 @@ img { display: block; user-select: none; -webkit-user-drag: none; }
 /* File che scorrono */
 .sezione-fila { display: flex; flex-direction: column; gap: 12px; }
 .sezione-fila > h2 { padding: 0 var(--spazio-pagina); }
+.testa-sezione { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 0 var(--spazio-pagina); }
+.vedi-tutto { padding: 4px 0; white-space: nowrap; }
 .fila { display: flex; gap: 12px; overflow-x: auto; cursor: grab; user-select: none; overscroll-behavior-x: contain; padding: 0 var(--spazio-pagina); scroll-snap-type: x mandatory; scroll-padding: 0 var(--spazio-pagina); scrollbar-width: none; }
 .fila > * { scroll-snap-align: start; flex: none; }
 .copertina-fila { width: 128px; display: flex; flex-direction: column; gap: 8px; text-align: left; }

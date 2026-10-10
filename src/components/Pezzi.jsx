@@ -18,12 +18,22 @@ export function Imdb({ voto }) {
   )
 }
 
+// Titolo di una sezione con "Vedi tutto" a destra (per ora non porta a niente)
+export function TestaSezione({ titolo }) {
+  return (
+    <div className="testa-sezione">
+      <h2 className="t-titolo-sezione">{titolo}</h2>
+      <button className="vedi-tutto t-etichetta c-sec">Vedi tutto</button>
+    </div>
+  )
+}
+
 // Fila di copertine
 export function FilaCopertine({ titolo, ids, onApri, senzaVoto }) {
   const { voti } = useStore()
   return (
     <section className="sezione-fila">
-      <h2 className="t-titolo-sezione">{titolo}</h2>
+      <TestaSezione titolo={titolo} />
       <Fila>
         {ids.map((id) => {
           const t = TITOLI[id]
