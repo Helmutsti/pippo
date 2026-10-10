@@ -19,10 +19,10 @@ export function Imdb({ voto }) {
 }
 
 // Titolo di una sezione con "Vedi tutto" a destra (per ora non porta a niente)
-export function TestaSezione({ titolo }) {
+export function TestaSezione({ titolo, piccola }) {
   return (
     <div className="testa-sezione">
-      <h2 className="t-titolo-sezione">{titolo}</h2>
+      <h2 className={piccola ? 't-etichetta c-ter' : 't-titolo-sezione'}>{titolo}</h2>
       <button className="vedi-tutto t-etichetta c-sec">Vedi tutto</button>
     </div>
   )
@@ -63,7 +63,7 @@ export function FilaCast({ titolo }) {
   if (!persone.length) return null
   return (
     <section className="sezione-fila">
-      <h2 className="t-etichetta c-ter" style={{ padding: '0 var(--spazio-pagina)' }}>Cast</h2>
+      <TestaSezione titolo="Cast" piccola />
       <Fila style={{ gap: 8 }}>
         {persone.map((p) => (
           <div key={p.nome} className="attore">
