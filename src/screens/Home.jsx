@@ -42,7 +42,7 @@ export default function Home({ onApri, onFiltri, onWizard, scrollRef }) {
             <Fila>
               {GENERI.map((g) => (
                 <div key={g.nome} className="genere">
-                  <img src={g.poster} alt="" loading="lazy" />
+                  <img src={g.illustrazione} alt="" />
                   <span className="t-titolo-sezione">{g.nome}</span>
                 </div>
               ))}

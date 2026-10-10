@@ -128,7 +128,7 @@ img { display: block; user-select: none; -webkit-user-drag: none; }
 .attore img { width: var(--misura-foto-attore); height: var(--misura-foto-attore); border-radius: 999px; object-fit: cover; background: var(--superficie-pannello); }
 
 .genere { position: relative; width: 160px; height: 96px; border-radius: var(--raggio-copertina-piccola); overflow: hidden; }
-.genere img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(2px) brightness(0.45); transform: scale(1.1); }
+.genere img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .genere span { position: absolute; left: 12px; bottom: 10px; }
 
 /* Pannello dal basso */

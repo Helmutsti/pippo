@@ -146,14 +146,9 @@ export const FILE_HOME = [
   { titolo: 'Dalla tua watch list', watchlist: true, ids: ['stranger', 'tlou1', 'ripley'] },
   { titolo: 'Nuovi sulle tue piattaforme', ids: ['fallout', 'tlou2', 'bear'] },
 ]
-export const GENERI = [
-  { nome: 'Fantascienza', poster: p('interstellar.jpg') },
-  { nome: 'Thriller', poster: p('sicario.jpg') },
-  { nome: 'Drammatico', poster: p('oppenheimer.jpg') },
-  { nome: 'Commedia', poster: p('bear.png') },
-  { nome: 'Fantastico', poster: p('stranger.jpg') },
-  { nome: 'Avventura', poster: p('dune.jpg') },
-]
+// Generi: illustrazioni piatte in un solo colore con le sue sfumature (versione scura scelta in Figma)
+export const GENERI = ['Fantascienza', 'Thriller', 'Drammatico', 'Commedia', 'Fantastico', 'Avventura']
+  .map((nome) => ({ nome, illustrazione: `/generi/${nome.toLowerCase()}.svg` }))
 
 // Wizard: titoli da scoprire, uno alla volta
 export const WIZARD = ['dune', 'stranger', 'oppenheimer', 'interstellar', 'fallout', 'inception', 'bear', 'sicario', 'ripley', 'dunkirk']
