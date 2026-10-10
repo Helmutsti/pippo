@@ -6,15 +6,20 @@ import { useSchermo } from '../schermo.js'
 // Carosello dei suggerimenti: copertina grande al centro, precedente e successiva ai lati.
 // Gira all'infinito: dopo l'ultimo suggerimento torna il primo, e al contrario.
 // Tutto segue un solo valore continuo (la posizione), così le copertine non saltano mai.
-const ALTEZZA = 430
-const PASSO = 246.5 // distanza tra il centro della copertina e il centro della vicina
+// Misure al massimo (copertina 260 × 390): su schermi bassi tutto si riduce in proporzione, vedi altezzaCopertina
+const COPERTINA_MAX = 390
+const PASSO_MAX = 246.5 // distanza tra il centro della copertina e il centro della vicina
 const SCALA_VICINA = 200 / 260
 const VICINE = 3 // copertine disegnate per lato; oltre la vicina sfumano fino a sparire
 const MOLLA = { type: 'spring', stiffness: 260, damping: 32, restDelta: 0.001 }
 
 const giro = (k, n) => ((k % n) + n) % n
 
-export default function Carosello({ ids, onApri }) {
+export default function Carosello({ ids, onApri, altezzaCopertina = COPERTINA_MAX }) {
+  const hC = Math.min(COPERTINA_MAX, altezzaCopertina)
+  const scala = hC / COPERTINA_MAX
+  const ALTEZZA = hC + 40
+  const PASSO = PASSO_MAX * scala
   const n = ids.length
   const posizione = useMotionValue(0) // 0 = primo suggerimento al centro, 1 = il secondo, ecc.
   const [centro, setCentro] = useState(0)
@@ -67,7 +72,7 @@ export default function Carosello({ ids, onApri }) {
         {slot.map((k) => {
           const id = ids[giro(k, n)]
           return (
-            <Copertina key={k} t={TITOLI[id]} k={k} posizione={posizione} centroX={centroX}
+            <Copertina key={k} t={TITOLI[id]} k={k} posizione={posizione} centroX={centroX} passo={PASSO} altezza={hC}
               onTap={() => { if (!trascinato.current) onApri(id) }} />
           )
         })}
@@ -108,9 +113,10 @@ export default function Carosello({ ids, onApri }) {
   )
 }
 
-function Copertina({ t, k, posizione, centroX, onTap }) {
+function Copertina({ t, k, posizione, centroX, passo, altezza, onTap }) {
+  const larghezza = altezza / 1.5
   const rel = useTransform(posizione, (p) => k - p)
-  const x = useTransform(rel, (r) => centroX + r * PASSO - 130)
+  const x = useTransform(rel, (r) => centroX + r * passo - larghezza / 2)
   const scale = useTransform(rel, (r) => 1 - (1 - SCALA_VICINA) * Math.min(1, Math.abs(r)))
   // al centro piena, ai lati 0.45, oltre la vicina sfuma fino a sparire
   const opacity = useTransform(rel, (r) => {
@@ -127,7 +133,7 @@ function Copertina({ t, k, posizione, centroX, onTap }) {
       draggable={false}
       onTap={onTap}
       style={{
-        position: 'absolute', top: 20, left: 0, width: 260, height: 390, objectFit: 'cover',
+        position: 'absolute', top: 20, left: 0, width: larghezza, height: altezza, objectFit: 'cover',
         borderRadius: 'var(--raggio-copertina)', x, scale, opacity, zIndex, boxShadow: ombra, willChange: 'transform, opacity',
       }}
     />
