@@ -1,4 +1,4 @@
-import { Bookmark, Heart, ThumbsDown } from 'lucide-react'
+import { Bookmark, EyeOff, Heart, ThumbsDown } from 'lucide-react'
 import { TITOLI, cast } from '../data.js'
 import { useStore } from '../store.jsx'
 import Fila from './Fila.jsx'
@@ -18,6 +18,15 @@ export function Imdb({ voto }) {
   )
 }
 
+// Velo grigio sopra la copertina di un titolo "non mi interessa", in tutta l'app
+export function VeloNascosto({ icona = 32, style }) {
+  return (
+    <div className="velo-nascosto" style={style}>
+      {icona && <EyeOff size={icona} color="var(--voto-non-interessa)" />}
+    </div>
+  )
+}
+
 // Titolo di una sezione con "Vedi tutto" a destra (per ora non porta a niente)
 export function TestaSezione({ titolo, piccola }) {
   return (
@@ -32,7 +41,7 @@ export function TestaSezione({ titolo, piccola }) {
 // il voto davanti, il segnalibro che spunta da dietro a sinistra.
 // Nella fila della watch list il segnalibro non si mostra, perché sarebbe su tutti.
 export function FilaCopertine({ titolo, ids, onApri, senzaSegnalibro }) {
-  const { voti, daVedere } = useStore()
+  const { voti, daVedere, nonInteressa } = useStore()
   return (
     <section className="sezione-fila">
       <TestaSezione titolo={titolo} />
@@ -45,7 +54,7 @@ export function FilaCopertine({ titolo, ids, onApri, senzaSegnalibro }) {
             <button key={id} className="copertina-fila" onClick={() => onApri(id)}>
               <div className="img">
                 <img src={t.poster} alt="" loading="lazy" />
-                {segni.map((s, i) => {
+                {nonInteressa[id] ? <VeloNascosto /> : segni.map((s, i) => {
                   const [Segno, colore] = SEGNO[s]
                   return (
                     <span key={s} className="voto-angolo vetro" style={{ right: 8 + 18 * (segni.length - 1 - i) }}>

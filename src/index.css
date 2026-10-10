@@ -124,6 +124,8 @@ img { display: block; user-select: none; -webkit-user-drag: none; }
 .copertina-fila { width: 128px; display: flex; flex-direction: column; gap: 8px; text-align: left; }
 .copertina-fila .img { position: relative; width: 128px; height: 192px; border-radius: var(--raggio-copertina-piccola); overflow: hidden; background: var(--superficie-pannello); }
 .copertina-fila img { width: 100%; height: 100%; object-fit: cover; }
+/* Velo "non mi interessa": copre la copertina ovunque compaia, perché non la si vuole vedere */
+.velo-nascosto { position: absolute; inset: 0; display: grid; place-items: center; background: var(--voto-non-interessa-velo); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); pointer-events: none; }
 .voto-angolo { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 999px; display: grid; place-items: center; }
 
 .attore { width: var(--misura-attore-larghezza); display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }

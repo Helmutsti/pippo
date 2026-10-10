@@ -3,7 +3,7 @@ import { Bookmark, EyeOff, Heart, ThumbsDown } from 'lucide-react'
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { TITOLI, WIZARD } from '../data.js'
 import { useStore } from '../store.jsx'
-import { FilaCast, Imdb } from '../components/Pezzi.jsx'
+import { FilaCast, Imdb, VeloNascosto } from '../components/Pezzi.jsx'
 import { BarraWizard } from '../components/Barra.jsx'
 import { useSchermo } from '../schermo.js'
 
@@ -158,6 +158,7 @@ export default function Wizard({ onInterrompi, inPausa }) {
           style={{ position: 'absolute', inset: -80, width: 'calc(100% + 160px)', height: 'calc(100% + 160px)', objectFit: 'cover', filter: 'blur(40px)' }} />
       </AnimatePresence>
       <div style={{ position: 'absolute', inset: 0, background: 'var(--velo-scuro)' }} />
+      {nonInteressa[id] && <VeloNascosto icona={null} />}
       {[-1, 0, 1].map((d) => {
         const tid = titoloA(indice + d)
         if (!tid) return null
@@ -217,7 +218,8 @@ function Carta({ carta: CARTA, t, attiva, offset, x, y, comparsa, girata, segnal
         <div style={{ ...faccia, background: 'var(--superficie-pannello)', pointerEvents: girata ? 'none' : 'auto' }}>
           <img src={t.poster} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(#0000 55%, #000000d9 100%)' }} />
-          <h2 className="t-titolo-carta" style={{ position: 'absolute', left: 20, right: 20, bottom: 20 }}>{t.titolo}</h2>
+          {/* il titolo resta sopra i veli: anche sotto il velo grigio si capisce di che film si tratta */}
+          <h2 className="t-titolo-carta" style={{ position: 'absolute', left: 20, right: 20, bottom: 20, zIndex: 1 }}>{t.titolo}</h2>
 
           {/* Velo e segno che seguono il dito */}
           <motion.div style={{ ...riempi, background: VOTI.like.velo, opacity: like }} />
@@ -227,7 +229,7 @@ function Carta({ carta: CARTA, t, attiva, offset, x, y, comparsa, girata, segnal
           <AnimatePresence>
             {[segnalibro && 'da-vedere', nascosta && 'non-interessa'].filter(Boolean).map((m) => (
               <motion.div key={m} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={riempi}>
-                <div style={{ ...riempi, background: VOTI[m].velo }} />
+                {m === 'non-interessa' ? <div className="velo-nascosto" /> : <div style={{ ...riempi, background: VOTI[m].velo }} />}
                 <motion.div initial={{ scale: 0.4 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 400, damping: 14 }} style={segno}>
                   <SegnoGrande voto={m} />
                 </motion.div>
@@ -239,6 +241,7 @@ function Carta({ carta: CARTA, t, attiva, offset, x, y, comparsa, girata, segnal
         {/* Retro */}
         <div style={{ ...faccia, transform: 'rotateY(180deg)', background: 'var(--superficie-retro)', pointerEvents: girata ? 'auto' : 'none' }}>
           <img src={t.poster} alt="" style={{ position: 'absolute', inset: -40, width: 'calc(100% + 80px)', height: 'calc(100% + 80px)', objectFit: 'cover', filter: 'blur(40px)', opacity: 0.35 }} />
+          {nascosta && <VeloNascosto icona={null} />}
           <div style={{ position: 'relative', height: '100%', overflowY: 'auto', padding: '24px 0', display: 'flex', flexDirection: 'column', gap: 'var(--spazio-gruppo)' }}>
             <div style={{ padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 8 }}>
               <h2 className="t-titolo-pannello">{t.titolo}</h2>

@@ -1,6 +1,6 @@
 import { TITOLI, durata } from '../data.js'
 import { useStore } from '../store.jsx'
-import { FilaCast, FilaCopertine, Imdb } from '../components/Pezzi.jsx'
+import { FilaCast, FilaCopertine, Imdb, VeloNascosto } from '../components/Pezzi.jsx'
 import { BarraScheda } from '../components/Barra.jsx'
 
 export default function Scheda({ id, onIndietro, onApri }) {
@@ -20,6 +20,7 @@ export default function Scheda({ id, onIndietro, onApri }) {
             maskImage: 'linear-gradient(to right, transparent, #000 18%, #000 82%, transparent)',
           }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(#000 0%, #0000 20%, #0000 70%, #000 100%)' }} />
+          {nonInteressa[id] && <VeloNascosto icona={96} />}
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spazio-gruppo)', padding: '0 0 var(--contenuto-spazio-sotto-barra)' }}>
