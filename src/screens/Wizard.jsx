@@ -166,7 +166,9 @@ function Carta({ carta: CARTA, t, attiva, offset, x, y, girata, segnalibro, onTa
         style={{ position: 'relative', width: '100%', height: '100%', transformStyle: 'preserve-3d' }}
       >
         {/* Fronte */}
-        <div style={{ ...faccia, background: 'var(--superficie-pannello)' }}>
+        {/* Solo la faccia girata verso chi guarda riceve i tocchi: Safari (e Brave su iPhone)
+            fa toccare anche la faccia nascosta, che altrimenti ruberebbe i gesti */}
+        <div style={{ ...faccia, background: 'var(--superficie-pannello)', pointerEvents: girata ? 'none' : 'auto' }}>
           <img src={t.poster} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(#0000 55%, #000000d9 100%)' }} />
           <h2 className="t-titolo-carta" style={{ position: 'absolute', left: 20, right: 20, bottom: 20 }}>{t.titolo}</h2>
@@ -189,7 +191,7 @@ function Carta({ carta: CARTA, t, attiva, offset, x, y, girata, segnalibro, onTa
         </div>
 
         {/* Retro */}
-        <div style={{ ...faccia, transform: 'rotateY(180deg)', background: 'var(--superficie-retro)' }}>
+        <div style={{ ...faccia, transform: 'rotateY(180deg)', background: 'var(--superficie-retro)', pointerEvents: girata ? 'auto' : 'none' }}>
           <img src={t.poster} alt="" style={{ position: 'absolute', inset: -40, width: 'calc(100% + 80px)', height: 'calc(100% + 80px)', objectFit: 'cover', filter: 'blur(40px)', opacity: 0.35 }} />
           <div style={{ position: 'relative', height: '100%', overflowY: 'auto', padding: '24px 0', display: 'flex', flexDirection: 'column', gap: 'var(--spazio-gruppo)' }}>
             <div style={{ padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 8 }}>
