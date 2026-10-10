@@ -6,8 +6,8 @@ import { BarraIndietro } from '../components/Barra.jsx'
 
 // Risultati dei filtri: i filtri attivi (si toccano per toglierli), "Modifica filtri" e la griglia di copertine
 export default function Risultati({ onIndietro, onApri, onModifica }) {
-  const { filtri, setFiltri, nonInteressa } = useStore()
-  const ids = Object.keys(TITOLI).filter((id) => !nonInteressa[id] && rispettaFiltri(TITOLI[id], filtri))
+  const { filtri, setFiltri, nonInteressa, voti } = useStore()
+  const ids = Object.keys(TITOLI).filter((id) => !nonInteressa[id] && rispettaFiltri(TITOLI[id], filtri, voti))
   const senza = (gruppo, v) => setFiltri({ ...filtri, [gruppo]: filtri[gruppo].filter((x) => x !== v) })
   const attivi = [
     ...(filtri.cosa !== 'Tutto' ? [{ chiave: 'cosa', etichetta: filtri.cosa, togli: () => setFiltri({ ...filtri, cosa: 'Tutto' }) }] : []),

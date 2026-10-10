@@ -38,9 +38,9 @@ export function Conferma({ onContinua, onInterrompi }) {
 }
 
 export function Filtri({ onChiudi, onApplica }) {
-  const { filtri, nonInteressa } = useStore()
+  const { filtri, nonInteressa, voti } = useStore()
   const [bozza, setBozza] = useState(filtri)
-  const quanti = Object.values(TITOLI).filter((t) => !nonInteressa[t.id] && rispettaFiltri(t, bozza)).length
+  const quanti = Object.values(TITOLI).filter((t) => !nonInteressa[t.id] && rispettaFiltri(t, bozza, voti)).length
   const alterna = (gruppo, v) => setBozza((b) => ({ ...b, [gruppo]: b[gruppo].includes(v) ? b[gruppo].filter((x) => x !== v) : [...b[gruppo], v] }))
 
   return (
@@ -61,6 +61,10 @@ export function Filtri({ onChiudi, onApplica }) {
       <Gruppo titolo="Le mie piattaforme">
         {FILTRI.piattaforme.map((p) => <Pillola key={p} scelta={bozza.piattaforme.includes(p)} onClick={() => alterna('piattaforme', p)}>{p}</Pillola>)}
       </Gruppo>
+      <label className="riga-interruttore">
+        <span className="t-corpo">Mostra già visti</span>
+        <input type="checkbox" role="switch" className="interruttore" checked={bozza.giaVisti} onChange={(e) => setBozza((b) => ({ ...b, giaVisti: e.target.checked }))} />
+      </label>
       <button className="pulsante principale t-pulsante" disabled={!quanti} style={{ opacity: quanti ? 1 : 0.5 }}
         onClick={() => onApplica(bozza)}>
         {quanti ? `Mostra ${quanti} ${quanti === 1 ? 'titolo' : 'titoli'}` : 'Nessun titolo'}

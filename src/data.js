@@ -176,9 +176,11 @@ export const FILTRI = {
   piattaforme: ['Netflix', 'Prime Video', 'Disney+', 'Apple TV+', 'NOW', 'RaiPlay'],
 }
 
-export const FILTRI_VUOTI = { cosa: 'Tutto', umore: [], tempo: [], piattaforme: [] }
+// giaVisti: spento = i titoli che hai già votato non compaiono tra i risultati
+export const FILTRI_VUOTI = { cosa: 'Tutto', umore: [], tempo: [], piattaforme: [], giaVisti: false }
 
-export function rispettaFiltri(t, f) {
+export function rispettaFiltri(t, f, voti = {}) {
+  if (!f.giaVisti && voti[t.id]) return false
   if (f.cosa !== 'Tutto' && t.tipo !== f.cosa) return false
   if (f.umore.length && !f.umore.some((u) => t.umore.includes(u) || t.generi.includes(u))) return false
   if (f.tempo.length && !f.tempo.some((n) => { const b = FILTRI.tempo.find((x) => x.nome === n); return t.minuti >= b.da && t.minuti <= b.a })) return false
