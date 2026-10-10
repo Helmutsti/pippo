@@ -164,6 +164,11 @@ img { display: block; user-select: none; -webkit-user-drag: none; }
 .griglia-o-elenco { display: flex; gap: 2px; padding: 4px; border-radius: var(--raggio-pillola); }
 .griglia-o-elenco button { width: 40px; height: 32px; border-radius: var(--raggio-pillola); display: grid; place-items: center; color: var(--testo-secondario); transition: background var(--durata-rapida), color var(--durata-rapida); }
 .griglia-o-elenco button.scelto { background: var(--vetro-fondo-premuto); color: var(--testo-primario); }
+.riga-ordina { display: inline-flex; align-items: center; gap: 4px; padding: 4px 0; }
+.fuori-menu { position: fixed; inset: 0; z-index: 30; }
+.menu-tendina { position: absolute; left: var(--spazio-pagina); top: calc(100% + 4px); z-index: 31; width: 220px; padding: 4px 0; border-radius: 16px; background: var(--superficie-pannello); border: 1px solid var(--vetro-bordo); box-shadow: 0 12px 32px #00000080; }
+.menu-tendina button { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; text-align: left; }
+.menu-tendina button:active { background: var(--vetro-fondo-premuto); }
 .riga-libreria { display: flex; align-items: center; gap: var(--spazio-elemento); padding: 4px 0; min-height: 80px; cursor: pointer; }
 .segni-riga { display: flex; gap: 8px; flex: none; }
 .scelta-visto { display: flex; gap: 4px; padding: 4px; border-radius: var(--raggio-pillola); flex: none; }

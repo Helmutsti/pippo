@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { Bookmark, Heart, LayoutGrid, List, ThumbsDown } from 'lucide-react'
+import { Bookmark, Check, ChevronDown, Heart, LayoutGrid, List, ThumbsDown } from 'lucide-react'
 import { useState } from 'react'
 import { TITOLI } from '../data.js'
 import { useStore } from '../store.jsx'
@@ -7,6 +7,7 @@ import Griglia from '../components/Griglia.jsx'
 import { BarraNavigazione } from '../components/Barra.jsx'
 
 const FILTRI = ['Tutti', 'Piaciuti', 'Non piaciuti', 'Da vedere']
+const ORDINI = [['az', 'A–Z'], ['recenti', 'Ultime aggiunte']]
 
 // lettera della rubrica: senza accenti, i numeri e i simboli sotto "#"
 const lettera = (titolo) => {
@@ -17,12 +18,15 @@ const lettera = (titolo) => {
 // Libreria: i titoli con un segno (votati o da vedere), divisi per lettera come una rubrica.
 // In alto a destra si sceglie griglia o elenco; una sola fila di pillole filtra.
 // I titoli "Non mi interessa" non sono qui: avranno una pagina loro nel Profilo.
+// Sotto le pillole "Ordina: … ▾" apre un piccolo menu: A–Z (rubrica per lettere) o Ultime aggiunte (elenco unico, l'ultima in cima).
 // In "Da vedere" ogni riga ha "Visto?": si apre lì la scelta pollice in giù / cuore, per segnare in fretta cosa hai visto.
 export default function Libreria({ onApri, onHome, onWizard, onCerca }) {
-  const { voti, daVedere, nonInteressa } = useStore()
+  const { voti, daVedere, nonInteressa, aggiunti } = useStore()
   const [vista, setVista] = useState('elenco') // 'elenco' | 'griglia'
   const [filtro, setFiltro] = useState('Tutti')
   const [aperto, setAperto] = useState(null) // riga con la scelta di "Visto?" aperta
+  const [ordine, setOrdine] = useState('az')
+  const [menu, setMenu] = useState(false)
 
   const passa = (id) => {
     if (!TITOLI[id] || nonInteressa[id]) return false
@@ -33,9 +37,10 @@ export default function Libreria({ onApri, onHome, onWizard, onCerca }) {
   }
   const ids = [...new Set([...Object.keys(voti), ...Object.keys(daVedere)])]
     .filter(passa)
-    .sort((a, b) => TITOLI[a].titolo.localeCompare(TITOLI[b].titolo, 'it'))
+    .sort((a, b) => ordine === 'recenti' ? (aggiunti[b] || 0) - (aggiunti[a] || 0) : TITOLI[a].titolo.localeCompare(TITOLI[b].titolo, 'it'))
   const sezioni = []
-  for (const id of ids) {
+  if (ordine === 'recenti' && ids.length) sezioni.push([null, ids]) // elenco unico, senza lettere
+  else for (const id of ids) {
     const l = lettera(TITOLI[id].titolo)
     if (sezioni.at(-1)?.[0] !== l) sezioni.push([l, []])
     sezioni.at(-1)[1].push(id)
@@ -57,11 +62,30 @@ export default function Libreria({ onApri, onHome, onWizard, onCerca }) {
               <button key={f} className={`pillola t-pillola${filtro === f ? ' scelta' : ''}`} aria-pressed={filtro === f} onClick={() => { setFiltro(f); setAperto(null) }}>{f}</button>
             ))}
           </div>
+          <div style={{ position: 'relative', padding: '0 var(--spazio-pagina)', marginTop: -12 }}>
+            <button className="riga-ordina t-etichetta" aria-haspopup="menu" aria-expanded={menu} onClick={() => setMenu(!menu)}>
+              <span className="c-ter">Ordina:</span> {ORDINI.find(([k]) => k === ordine)[1]} <ChevronDown size={14} />
+            </button>
+            <AnimatePresence>
+              {menu && (
+                <>
+                  <div className="fuori-menu" onClick={() => setMenu(false)} />
+                  <motion.div className="menu-tendina" role="menu" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.15 }}>
+                    {ORDINI.map(([k, etichetta]) => (
+                      <button key={k} role="menuitemradio" aria-checked={ordine === k} className="t-corpo" onClick={() => { setOrdine(k); setMenu(false) }}>
+                        {etichetta} {ordine === k && <Check size={18} />}
+                      </button>
+                    ))}
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
           {sezioni.length ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spazio-blocco)' }}>
               {sezioni.map(([l, lista]) => (
-                <section key={l} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  <h2 className="t-titolo-sezione" style={{ padding: '0 var(--spazio-pagina)' }}>{l}</h2>
+                <section key={l || 'tutti'} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {l && <h2 className="t-titolo-sezione" style={{ padding: '0 var(--spazio-pagina)' }}>{l}</h2>}
                   {vista === 'griglia' ? (
                     <Griglia ids={lista} onApri={onApri} senzaSegnalibro={filtro === 'Da vedere'} />
                   ) : (
