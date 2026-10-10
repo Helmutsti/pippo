@@ -4,7 +4,7 @@ import { useStore } from '../store.jsx'
 import { FilaCast, FilaCopertine, Imdb, SegniAngolo, VeloNascosto } from '../components/Pezzi.jsx'
 import { BarraScheda } from '../components/Barra.jsx'
 
-export default function Scheda({ id, onIndietro, onApri, onArtista }) {
+export default function Scheda({ id, onIndietro, onApri, onArtista, onVediTutto }) {
   const t = TITOLI[id]
   const { voti, daVedere, nonInteressa, alterna } = useStore()
   const simili = (t.simili || []).filter((s) => TITOLI[s] && !nonInteressa[s])
@@ -40,9 +40,9 @@ export default function Scheda({ id, onIndietro, onApri, onArtista }) {
           <Blocco titolo="Trama"><p className="t-corpo c-sec">{t.trama}</p></Blocco>
           {/* per le serie resta la riga "Ideata da"; per i film il regista ha il suo riquadro dopo il cast */}
           {!t.regia && <Blocco titolo="Ideata da"><p className="t-corpo">{t.ideata}</p></Blocco>}
-          <FilaCast titolo={t} onArtista={onArtista} />
+          <FilaCast titolo={t} onArtista={onArtista} onVediTutto={onVediTutto} />
           {t.regia && <RiquadroRegia t={t} onApri={onApri} onArtista={onArtista} />}
-          {simili.length > 0 && <FilaCopertine titolo="Titoli simili" ids={simili} onApri={onApri} />}
+          {simili.length > 0 && <FilaCopertine titolo="Titoli simili" ids={simili} onApri={onApri} onVediTutto={() => onVediTutto({ titolo: 'Titoli simili', tipo: 'titoli', ids: simili })} />}
         </div>
       </div>
       <BarraScheda onIndietro={onIndietro} voto={voti[id]} daVedere={!!daVedere[id]} nonInteressa={!!nonInteressa[id]} onVoto={(v) => alterna(id, v)} />

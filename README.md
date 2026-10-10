@@ -11,7 +11,7 @@ npm run dev
 Poi aprire l'indirizzo che compare (es. http://localhost:5173). Occupa tutto lo schermo e si adatta al telefono: per provarlo dal telefono, sulla stessa rete, `npm run dev -- --host`. Dal computer conviene la vista telefono degli strumenti per sviluppatori del browser.
 
 ## Cosa si può fare
-- **Home:** il carosello dei suggerimenti si trascina di lato e gira all'infinito; tocco su qualsiasi copertina → Scheda titolo. Il segnalibro accanto al titolo mette o toglie il suggerimento da "Da vedere". "Vedi tutto" accanto alle sezioni per ora non porta a niente. "Non sai cosa scegliere?" apre i filtri, che restringono davvero suggerimenti e file. Le copertine aprono la Scheda titolo.
+- **Home:** il carosello dei suggerimenti si trascina di lato e gira all'infinito; tocco su qualsiasi copertina → Scheda titolo. Il segnalibro accanto al titolo mette o toglie il suggerimento da "Da vedere". "Vedi tutto" accanto alle sezioni apre la griglia completa (titoli, persone o generi). "Non sai cosa scegliere?" apre i filtri, che restringono davvero suggerimenti e file. Le copertine aprono la Scheda titolo.
 - **Scheda titolo:** cuore, pollice in giù e segnalibro segnano il titolo (toccati di nuovo si tolgono); il segnalibro lo aggiunge a "Da vedere" nella Libreria.
 - **Wizard** (bolla con le carte nella barra): trascina a destra = mi è piaciuto, a sinistra = non mi è piaciuto, su = successivo, giù = precedente, tocco = gira la carta. Segnalibro = da vedere. Freccia = conferma per uscire.
 - **Tastiera nel wizard:** frecce destra/sinistra (voto), giù/su (successivo/precedente), spazio (gira), B (da vedere), Esc (esci).

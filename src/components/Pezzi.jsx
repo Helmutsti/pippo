@@ -28,12 +28,12 @@ export function VeloNascosto({ icona = 32, leggero, style }) {
   )
 }
 
-// Titolo di una sezione con "Vedi tutto" a destra (per ora non porta a niente)
-export function TestaSezione({ titolo, piccola }) {
+// Titolo di una sezione con "Vedi tutto" a destra, che apre la griglia completa (se c'è dove andare)
+export function TestaSezione({ titolo, piccola, onVediTutto }) {
   return (
     <div className="testa-sezione">
       <h2 className={piccola ? 't-etichetta c-ter' : 't-titolo-sezione'}>{titolo}</h2>
-      <button className="vedi-tutto t-etichetta c-sec">Vedi tutto</button>
+      {onVediTutto && <button className="vedi-tutto t-etichetta c-sec" onClick={onVediTutto}>Vedi tutto</button>}
     </div>
   )
 }
@@ -57,10 +57,10 @@ export function SegniAngolo({ id, senzaSegnalibro }) {
 }
 
 // Fila di copertine che scorre in orizzontale
-export function FilaCopertine({ titolo, ids, onApri, senzaSegnalibro }) {
+export function FilaCopertine({ titolo, ids, onApri, senzaSegnalibro, onVediTutto }) {
   return (
     <section className="sezione-fila">
-      <TestaSezione titolo={titolo} />
+      <TestaSezione titolo={titolo} onVediTutto={onVediTutto} />
       <Fila>
         {ids.map((id) => {
           const t = TITOLI[id]
@@ -81,12 +81,12 @@ export function FilaCopertine({ titolo, ids, onApri, senzaSegnalibro }) {
 }
 
 // Fila del cast
-export function FilaCast({ titolo, onArtista }) {
+export function FilaCast({ titolo, onArtista, onVediTutto }) {
   const persone = cast(titolo)
   if (!persone.length) return null
   return (
     <section className="sezione-fila">
-      <TestaSezione titolo="Cast" />
+      <TestaSezione titolo="Cast" onVediTutto={onVediTutto && (() => onVediTutto({ titolo: 'Cast', tipo: 'persone', persone: persone.map((p) => ({ nome: p.nome, foto: p.foto, sotto: p.personaggio })) }))} />
       <Fila style={{ gap: 8 }}>
         {persone.map((p) => (
           <button key={p.nome} className="attore" onClick={(e) => { if (onArtista) { e.stopPropagation(); onArtista(p.nome) } }}>

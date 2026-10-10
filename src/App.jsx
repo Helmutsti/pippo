@@ -7,6 +7,7 @@ import Risultati from './screens/Risultati.jsx'
 import Scheda from './screens/Scheda.jsx'
 import Cerca from './screens/Cerca.jsx'
 import Artista from './screens/Artista.jsx'
+import VediTutto from './screens/VediTutto.jsx'
 import Wizard from './screens/Wizard.jsx'
 import { Conferma, Filtri } from './screens/Pannelli.jsx'
 
@@ -34,6 +35,8 @@ function Navigazione() {
   const apriWizard = () => apri({ nome: 'wizard' })
   const apriCerca = () => apri({ nome: 'cerca' })
   const apriArtista = (persona) => apri({ nome: 'artista', persona })
+  // "Vedi tutto": { titolo, tipo: 'titoli' | 'persone' | 'generi', ids?, persone? }
+  const apriTutti = (cosa) => apri({ nome: 'tutti', cosa })
   // "Mostra N titoli": aggiorna i filtri e apre i Risultati (se non ci si è già)
   const applicaFiltri = (f) => {
     setFiltri(f)
@@ -44,7 +47,7 @@ function Navigazione() {
   return (
     <div className="telefono">
       {voce === 'home' ? (
-        <Home scrollRef={scrollHome} onApri={apriScheda} onFiltri={() => setPannello('filtri')} onWizard={apriWizard} onLibreria={() => setVoce('libreria')} onCerca={apriCerca} />
+        <Home scrollRef={scrollHome} onApri={apriScheda} onFiltri={() => setPannello('filtri')} onWizard={apriWizard} onLibreria={() => setVoce('libreria')} onCerca={apriCerca} onVediTutto={apriTutti} />
       ) : (
         <Libreria onApri={apriScheda} onHome={() => setVoce('home')} onWizard={apriWizard} onCerca={apriCerca} />
       )}
@@ -64,9 +67,11 @@ function Navigazione() {
               initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
               transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}>
               {s.nome === 'scheda'
-                ? <Scheda id={s.id} onIndietro={indietro} onApri={apriScheda} onArtista={apriArtista} />
+                ? <Scheda id={s.id} onIndietro={indietro} onApri={apriScheda} onArtista={apriArtista} onVediTutto={apriTutti} />
                 : s.nome === 'artista'
-                ? <Artista nome={s.persona} onIndietro={indietro} onApri={apriScheda} onArtista={apriArtista} />
+                ? <Artista nome={s.persona} onIndietro={indietro} onApri={apriScheda} onArtista={apriArtista} onVediTutto={apriTutti} />
+                : s.nome === 'tutti'
+                ? <VediTutto {...s.cosa} onIndietro={indietro} onApri={apriScheda} onArtista={apriArtista} />
                 : <Risultati onIndietro={indietro} onApri={apriScheda} onModifica={() => setPannello('filtri')} />}
             </motion.div>
           ),

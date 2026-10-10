@@ -10,7 +10,7 @@ import Fila from '../components/Fila.jsx'
 // Una frase per apertura dell'app (scelta una volta sola, anche se la Home si ridisegna)
 const frase = fraseDiOggi()
 
-export default function Home({ onApri, onFiltri, onWizard, onLibreria, onCerca, scrollRef }) {
+export default function Home({ onApri, onFiltri, onWizard, onLibreria, onCerca, onVediTutto, scrollRef }) {
   const { nonInteressa } = useStore()
   // i titoli segnati "non mi interessa" non vengono più proposti; i filtri non toccano la Home (aprono i Risultati)
   const passa = (id) => TITOLI[id] && !nonInteressa[id]
@@ -48,13 +48,13 @@ export default function Home({ onApri, onFiltri, onWizard, onLibreria, onCerca, 
           </div>
 
           {FILE_HOME.map((f) => {
-            const ids = (f.piuVotati ? piuVotati : f.ids).filter(passa).slice(0, 10)
-            if (!ids.length) return null
-            return <FilaCopertine key={f.titolo} titolo={f.titolo} ids={ids} onApri={onApri} />
+            const tutti = (f.piuVotati ? piuVotati : f.ids).filter(passa)
+            if (!tutti.length) return null
+            return <FilaCopertine key={f.titolo} titolo={f.titolo} ids={tutti.slice(0, 10)} onApri={onApri} onVediTutto={() => onVediTutto({ titolo: f.titolo, tipo: 'titoli', ids: tutti })} />
           })}
 
           <section className="sezione-fila">
-            <TestaSezione titolo="Generi" />
+            <TestaSezione titolo="Generi" onVediTutto={() => onVediTutto({ titolo: 'Generi', tipo: 'generi' })} />
             <Fila>
               {GENERI.map((g) => (
                 <div key={g.nome} className="genere">

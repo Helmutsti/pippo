@@ -8,7 +8,7 @@ import { useStore } from '../store.jsx'
 
 // Scheda artista: attori, registi, cantanti. Foto grande in alto come nella Scheda titolo, poi nome, ruoli, nascita e premi in breve;
 // biografia, "Conosciuta per", "Ha lavorato spesso con", premi vinti (niente zeri) e carriera divisa per ruolo.
-export default function Artista({ nome, onIndietro, onApri, onArtista }) {
+export default function Artista({ nome, onIndietro, onApri, onArtista, onVediTutto }) {
   const a = artista(nome)
   const { nonInteressa } = useStore()
   const [gruppo, setGruppo] = useState(a.carriera[0]?.[0])
@@ -45,11 +45,11 @@ export default function Artista({ nome, onIndietro, onApri, onArtista }) {
             </section>
           )}
 
-          {conosciuta.length > 0 && <FilaCopertine titolo={a.titoloNoti} ids={conosciuta} onApri={onApri} />}
+          {conosciuta.length > 0 && <FilaCopertine titolo={a.titoloNoti} ids={conosciuta} onApri={onApri} onVediTutto={() => onVediTutto({ titolo: a.nome, tipo: 'titoli', ids: conosciuta })} />}
 
           {a.colleghi.length > 0 && (
             <section className="sezione-fila">
-              <TestaSezione titolo="Ha lavorato spesso con" />
+              <TestaSezione titolo="Ha lavorato spesso con" onVediTutto={() => onVediTutto({ titolo: 'Ha lavorato spesso con', tipo: 'persone', persone: a.colleghi.map((p) => ({ nome: p.nome, foto: p.foto, sotto: `${p.volte} ${p.volte === 1 ? 'titolo' : 'titoli'} insieme` })) })} />
               <Fila style={{ gap: 8 }}>
                 {a.colleghi.map((p) => (
                   <button key={p.nome} className="attore" onClick={() => onArtista(p.nome)}>
