@@ -1,7 +1,9 @@
 import { AnimatePresence, animate, motion, useMotionValue, useMotionValueEvent, useTransform } from 'framer-motion'
+import { Bookmark } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { TITOLI, durata } from '../data.js'
 import { useSchermo } from '../schermo.js'
+import { useStore } from '../store.jsx'
 
 // Carosello dei suggerimenti: copertina grande al centro, precedente e successiva ai lati.
 // Gira all'infinito: dopo l'ultimo suggerimento torna il primo, e al contrario.
@@ -26,6 +28,7 @@ export default function Carosello({ ids, onApri, altezzaCopertina = COPERTINA_MA
   const partenza = useRef(0)
   const trascinato = useRef(false) // per non aprire la scheda alla fine di un trascinamento
   const centroX = useSchermo().larghezza / 2
+  const { daVedere, alterna } = useStore()
 
   useMotionValueEvent(posizione, 'change', (v) => setCentro(Math.round(v)))
 
@@ -78,19 +81,33 @@ export default function Carosello({ ids, onApri, altezzaCopertina = COPERTINA_MA
         })}
       </motion.div>
 
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={attuale.id}
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.18 }}
-          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, padding: '0 20px', textAlign: 'center' }}
+      {/* Titolo al centro della pagina; a destra il segnalibro mette o toglie il titolo da "Da vedere" senza aprire la Scheda */}
+      <div style={{ display: 'grid', gridTemplateColumns: '44px 1fr 44px', alignItems: 'center', gap: 8, width: '100%', padding: '0 var(--spazio-pagina)' }}>
+        <span />
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={attuale.id}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.18 }}
+            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, textAlign: 'center', minWidth: 0 }}
+          >
+            <h2 className="t-titolo-pannello">{attuale.titolo}</h2>
+            <p className="t-didascalia c-sec">{attuale.generi.join(' · ')} · {durata(attuale)}</p>
+          </motion.div>
+        </AnimatePresence>
+        <motion.button
+          whileTap={{ scale: 0.85 }}
+          className="vetro"
+          style={{ width: 44, height: 44, borderRadius: 999, display: 'grid', placeItems: 'center' }}
+          aria-label="Da vedere"
+          aria-pressed={!!daVedere[attuale.id]}
+          onClick={() => alterna(attuale.id, 'da-vedere')}
         >
-          <h2 className="t-titolo-pannello">{attuale.titolo}</h2>
-          <p className="t-didascalia c-sec">{attuale.generi.join(' · ')} · {durata(attuale)}</p>
-        </motion.div>
-      </AnimatePresence>
+          <Bookmark size={20} strokeWidth={2} {...(daVedere[attuale.id] ? { color: 'var(--voto-da-vedere)', fill: 'var(--voto-da-vedere)' } : {})} />
+        </motion.button>
+      </div>
 
       <div style={{ display: 'flex', gap: 8 }} aria-label={`Suggerimento ${indice + 1} di ${n}`}>
         {ids.map((id, i) => {

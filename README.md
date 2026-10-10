@@ -11,13 +11,14 @@ npm run dev
 Poi aprire l'indirizzo che compare (es. http://localhost:5173). Occupa tutto lo schermo e si adatta al telefono: per provarlo dal telefono, sulla stessa rete, `npm run dev -- --host`. Dal computer conviene la vista telefono degli strumenti per sviluppatori del browser.
 
 ## Cosa si può fare
-- **Home:** il carosello dei suggerimenti si trascina di lato e gira all'infinito; tocco su qualsiasi copertina → Scheda titolo. "Vedi tutto" accanto alle sezioni per ora non porta a niente. "Non sai cosa scegliere?" apre i filtri, che restringono davvero suggerimenti e file. Le copertine aprono la Scheda titolo.
+- **Home:** il carosello dei suggerimenti si trascina di lato e gira all'infinito; tocco su qualsiasi copertina → Scheda titolo. Il segnalibro accanto al titolo mette o toglie il suggerimento da "Da vedere". "Vedi tutto" accanto alle sezioni per ora non porta a niente. "Non sai cosa scegliere?" apre i filtri, che restringono davvero suggerimenti e file. Le copertine aprono la Scheda titolo.
 - **Scheda titolo:** cuore, pollice in giù e segnalibro segnano il titolo (toccati di nuovo si tolgono); il segnalibro lo aggiunge a "Dalla tua watch list".
 - **Wizard** (bolla con le carte nella barra): trascina a destra = mi è piaciuto, a sinistra = non mi è piaciuto, su = successivo, giù = precedente, tocco = gira la carta. Segnalibro = da vedere. Freccia = conferma per uscire.
 - **Tastiera nel wizard:** frecce destra/sinistra (voto), giù/su (successivo/precedente), spazio (gira), B (da vedere), Esc (esci).
 
 - **Cerca** (lente nella barra): vetro scuro a tutto schermo con il campo in basso e la tastiera aperta. Si cerca per titolo, attori, regia. I risultati partono dal basso, divisi in "Nella tua libreria" e "Altri titoli"; segnalibro e cuore su ogni riga, tocco sulla riga → Scheda titolo (tornando indietro si ritrova la ricerca). Scorrendo la lista la tastiera si chiude; la x chiude la ricerca.
-- **Libreria** (dalla barra) e **Risultati** (da "Mostra N titoli" nei filtri).
+- **Libreria** (dalla barra): titoli votati o da vedere divisi per lettera come una rubrica; in alto a destra griglia o elenco; pillole Tutti, Piaciuti, Non piaciuti, Da vedere. In Da vedere (elenco) "Visto?" apre pollice in giù e cuore per segnare in fretta cosa hai visto. I titoli "Non mi interessa" non compaiono (avranno una pagina nel Profilo).
+- **Risultati** (da "Mostra N titoli" nei filtri).
 
 Community e Profilo non sono ancora disegnate: i loro pulsanti nella barra non fanno niente.
 
