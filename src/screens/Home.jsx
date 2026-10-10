@@ -9,8 +9,9 @@ import Fila from '../components/Fila.jsx'
 const frase = fraseDiOggi()
 
 export default function Home({ onApri, onFiltri, onWizard, scrollRef }) {
-  const { daVedere, filtri, setFiltri } = useStore()
-  const passa = (id) => rispettaFiltri(TITOLI[id], filtri)
+  const { daVedere, nonInteressa, filtri, setFiltri } = useStore()
+  // i titoli segnati "non mi interessa" non vengono più proposti
+  const passa = (id) => TITOLI[id] && !nonInteressa[id] && rispettaFiltri(TITOLI[id], filtri)
   const suggerimenti = SUGGERIMENTI.filter(passa).slice(0, 5)
   const watchlist = Object.keys(daVedere)
 

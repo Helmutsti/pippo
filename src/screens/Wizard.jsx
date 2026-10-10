@@ -1,5 +1,5 @@
 import { AnimatePresence, animate, motion, useMotionValue, useTransform } from 'framer-motion'
-import { Bookmark, Heart, ThumbsDown } from 'lucide-react'
+import { Bookmark, EyeOff, Heart, ThumbsDown } from 'lucide-react'
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { TITOLI, WIZARD } from '../data.js'
 import { useStore } from '../store.jsx'
@@ -27,14 +27,17 @@ const VOTI = {
   like: { Icona: Heart, colore: 'var(--voto-like)', velo: 'var(--voto-like-velo)' },
   dislike: { Icona: ThumbsDown, colore: 'var(--voto-dislike)', velo: 'var(--voto-dislike-velo)' },
   'da-vedere': { Icona: Bookmark, colore: 'var(--voto-da-vedere)', velo: 'var(--voto-da-vedere-velo)' },
+  'non-interessa': { Icona: EyeOff, colore: 'var(--voto-non-interessa)', velo: 'var(--voto-non-interessa-velo)', vuota: true },
 }
 
 export default function Wizard({ onInterrompi, inPausa }) {
-  const { vota, daVedere } = useStore()
+  const { vota, daVedere, nonInteressa } = useStore()
   const [indice, setIndice] = useState(0)
   const [girata, setGirata] = useState(false)
   const [bolle, setBolle] = useState([])
-  const [segnalibro, setSegnalibro] = useState(false)
+  const [marchio, setMarchio] = useState(null) // 'da-vedere' | 'non-interessa': velo e segno sulla carta prima di passare oltre
+  // titoli da proporre: quelli "non mi interessa" escono dal giro
+  const [lista, setLista] = useState(() => WIZARD.filter((w) => !nonInteressa[w]))
   const occupato = useRef(false)
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -46,10 +49,11 @@ export default function Wizard({ onInterrompi, inPausa }) {
   const PASSO_Y = Math.max(CARTA.y + CARTA.h, schermo.altezza - CARTA.y)
 
   // Quando cambia carta, la nuova prende il posto della vecchia senza salti
-  useLayoutEffect(() => { x.set(0); y.set(0); setGirata(false); setSegnalibro(false) }, [indice, x, y])
+  useLayoutEffect(() => { x.set(0); y.set(0); setGirata(false); setMarchio(null) }, [indice, x, y])
 
   // Il wizard non finisce mai: in teoria scorre tutto il catalogo, nel prototipo ricomincia dai primi titoli
-  const titoloA = (i) => WIZARD[((i % WIZARD.length) + WIZARD.length) % WIZARD.length]
+  const giro = lista.length ? lista : WIZARD
+  const titoloA = (i) => giro[((i % giro.length) + giro.length) % giro.length]
   const id = titoloA(indice)
 
   const passaA = useCallback(async (verso) => {
@@ -79,11 +83,26 @@ export default function Wizard({ onInterrompi, inPausa }) {
     if (occupato.current) return
     occupato.current = true
     vota(id, 'da-vedere')
-    setSegnalibro(true)
+    setMarchio('da-vedere')
     await new Promise((r) => setTimeout(r, 650))
     await passaA(1)
     occupato.current = false
   }, [id, passaA, vota])
+
+  // Non mi interessa: velo grigio, poi la carta sparisce e al suo posto compare il titolo successivo
+  const nascondi = useCallback(async () => {
+    if (occupato.current) return
+    occupato.current = true
+    ultimoVoto.current = Date.now()
+    setMarchio('non-interessa')
+    await new Promise((r) => setTimeout(r, 500))
+    await animate(comparsa, 0, { duration: 0.18, ease: 'easeIn' })
+    vota(id, 'non-interessa')
+    setLista((l) => (l.length > 1 ? l.filter((w) => w !== id) : l))
+    x.set(0); y.set(0); setGirata(false); setMarchio(null)
+    animate(comparsa, 1, { duration: 0.16, ease: 'easeOut' })
+    occupato.current = false
+  }, [id, vota, x, y, comparsa])
 
   const scorri = useCallback(async (verso) => {
     if (occupato.current) return
@@ -103,10 +122,11 @@ export default function Wizard({ onInterrompi, inPausa }) {
       else if (e.key === 'ArrowUp') scorri(-1)
       else if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); setGirata((g) => !g) }
       else if (e.key.toLowerCase() === 'b') salva()
+      else if (e.key.toLowerCase() === 'n') nascondi()
     }
     window.addEventListener('keydown', tasto)
     return () => window.removeEventListener('keydown', tasto)
-  }, [dai, girata, inPausa, onInterrompi, salva, scorri])
+  }, [dai, girata, inPausa, onInterrompi, salva, nascondi, scorri])
 
   const fineTrascinamento = (_, info) => {
     const asse = Math.abs(info.offset.x) > Math.abs(info.offset.y) ? 'x' : 'y'
@@ -132,7 +152,7 @@ export default function Wizard({ onInterrompi, inPausa }) {
         const tid = titoloA(indice + d)
         return (
           <Carta key={indice + d} carta={CARTA} t={TITOLI[tid]} attiva={d === 0} offset={d * PASSO_Y} x={x} y={y} comparsa={comparsa}
-            girata={d === 0 && girata} segnalibro={d === 0 && segnalibro}
+            girata={d === 0 && girata} marchio={d === 0 ? marchio : null}
             onTap={() => { if (Date.now() - ultimoVoto.current > 350) setGirata((g) => !g) }} onDragEnd={fineTrascinamento} occupato={occupato} />
         )
       })}
@@ -141,12 +161,12 @@ export default function Wizard({ onInterrompi, inPausa }) {
         {bolle.map((b) => <Bolla key={b.chiave} {...b} carta={CARTA} onFine={() => setBolle((bb) => bb.filter((x) => x.chiave !== b.chiave))} />)}
       </AnimatePresence>
 
-      <BarraWizard onIndietro={onInterrompi} onSegnalibro={salva} daVedere={!!(id && daVedere[id])} />
+      <BarraWizard onIndietro={onInterrompi} onSegnalibro={salva} onNascondi={nascondi} daVedere={!!(id && daVedere[id])} nonInteressa={!!(id && nonInteressa[id]) || marchio === 'non-interessa'} />
     </div>
   )
 }
 
-function Carta({ carta: CARTA, t, attiva, offset, x, y, comparsa, girata, segnalibro, onTap, onDragEnd, occupato }) {
+function Carta({ carta: CARTA, t, attiva, offset, x, y, comparsa, girata, marchio, onTap, onDragEnd, occupato }) {
   const yCarta = useTransform(y, (v) => v + offset)
   const xCarta = useTransform(x, (v) => (attiva ? v : 0))
   const rotate = useTransform(xCarta, [-300, 300], [-12, 12])
@@ -194,11 +214,11 @@ function Carta({ carta: CARTA, t, attiva, offset, x, y, comparsa, girata, segnal
           <motion.div style={{ ...segno, opacity: like, scale: scalaLike }}><Heart size={120} color={VOTI.like.colore} fill={VOTI.like.colore} style={ombraIcona} /></motion.div>
           <motion.div style={{ ...segno, opacity: dislike, scale: scalaDislike }}><ThumbsDown size={120} color={VOTI.dislike.colore} fill={VOTI.dislike.colore} style={ombraIcona} /></motion.div>
           <AnimatePresence>
-            {segnalibro && (
+            {marchio && (
               <>
-                <motion.div key="v" initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ ...riempi, background: VOTI['da-vedere'].velo }} />
+                <motion.div key="v" initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ ...riempi, background: VOTI[marchio].velo }} />
                 <motion.div key="s" initial={{ opacity: 0, scale: 0.4 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 400, damping: 14 }} style={segno}>
-                  <Bookmark size={120} color={VOTI['da-vedere'].colore} fill={VOTI['da-vedere'].colore} style={ombraIcona} />
+                  <SegnoGrande voto={marchio} />
                 </motion.div>
               </>
             )}
@@ -227,6 +247,12 @@ function Carta({ carta: CARTA, t, attiva, offset, x, y, comparsa, girata, segnal
       </motion.div>
     </motion.div>
   )
+}
+
+// Segno grande al centro della carta (segnalibro o non mi interessa)
+function SegnoGrande({ voto }) {
+  const { Icona, colore, vuota } = VOTI[voto]
+  return <Icona size={120} color={colore} fill={vuota ? 'none' : colore} style={ombraIcona} />
 }
 
 // Dopo il voto il segno sale ondeggiando, si rimpicciolisce e sparisce come una bolla di sapone

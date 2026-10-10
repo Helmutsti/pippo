@@ -5,7 +5,8 @@ import { BarraScheda } from '../components/Barra.jsx'
 
 export default function Scheda({ id, onIndietro, onApri }) {
   const t = TITOLI[id]
-  const { voti, daVedere, alterna } = useStore()
+  const { voti, daVedere, nonInteressa, alterna } = useStore()
+  const simili = (t.simili || []).filter((s) => TITOLI[s] && !nonInteressa[s])
 
   return (
     <div className="schermata">
@@ -37,10 +38,10 @@ export default function Scheda({ id, onIndietro, onApri }) {
           <Blocco titolo="Trama"><p className="t-corpo c-sec">{t.trama}</p></Blocco>
           <Blocco titolo={t.regia ? 'Regia' : 'Ideata da'}><p className="t-corpo">{t.regia || t.ideata}</p></Blocco>
           <FilaCast titolo={t} />
-          {t.simili?.length > 0 && <FilaCopertine titolo="Titoli simili" ids={t.simili} onApri={onApri} />}
+          {simili.length > 0 && <FilaCopertine titolo="Titoli simili" ids={simili} onApri={onApri} />}
         </div>
       </div>
-      <BarraScheda onIndietro={onIndietro} voto={voti[id]} daVedere={!!daVedere[id]} onVoto={(v) => alterna(id, v)} />
+      <BarraScheda onIndietro={onIndietro} voto={voti[id]} daVedere={!!daVedere[id]} nonInteressa={!!nonInteressa[id]} onVoto={(v) => alterna(id, v)} />
     </div>
   )
 }

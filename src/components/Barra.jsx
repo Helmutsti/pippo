@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion'
-import { Bookmark, ChevronLeft, GalleryVerticalEnd, Heart, House, Library, Search, ThumbsDown, User } from 'lucide-react'
+import { Bookmark, ChevronLeft, EyeOff, GalleryVerticalEnd, Heart, House, Library, Search, ThumbsDown, User } from 'lucide-react'
 
 const ICONA = { size: 24, strokeWidth: 2 }
 
-const COLORE_VOTO = { like: 'var(--voto-like)', dislike: 'var(--voto-dislike)', 'da-vedere': 'var(--voto-da-vedere)' }
+const COLORE_VOTO = { like: 'var(--voto-like)', dislike: 'var(--voto-dislike)', 'da-vedere': 'var(--voto-da-vedere)', 'non-interessa': 'var(--voto-non-interessa)' }
 
 // Barra a bolle: Home · Scheda titolo · Wizard
 export function BarraHome({ onCarte }) {
@@ -23,18 +23,19 @@ export function BarraHome({ onCarte }) {
   )
 }
 
-export function BarraScheda({ onIndietro, voto, daVedere, onVoto }) {
+export function BarraScheda({ onIndietro, voto, daVedere, nonInteressa, onVoto }) {
   const azioni = [
     ['like', Heart, 'Mi è piaciuto'],
     ['dislike', ThumbsDown, 'Non mi è piaciuto'],
     ['da-vedere', Bookmark, 'Da vedere'],
+    ['non-interessa', EyeOff, 'Non mi interessa'],
   ]
   return (
     <div className="barra">
       <button className="bolla vetro" onClick={onIndietro} aria-label="Indietro"><ChevronLeft {...ICONA} /></button>
       <div className="pillola-barra vetro">
         {azioni.map(([chiave, Icona, etichetta]) => {
-          const attivo = chiave === 'da-vedere' ? daVedere : voto === chiave
+          const attivo = chiave === 'da-vedere' ? daVedere : chiave === 'non-interessa' ? nonInteressa : voto === chiave
           return (
             <motion.button
               key={chiave}
@@ -51,7 +52,7 @@ export function BarraScheda({ onIndietro, voto, daVedere, onVoto }) {
                 transition={{ type: 'spring', stiffness: 500, damping: 15 }}
                 style={{ display: 'grid' }}
               >
-                <Icona {...ICONA} color={attivo ? COLORE_VOTO[chiave] : 'currentColor'} fill={attivo ? COLORE_VOTO[chiave] : 'none'} />
+                <Icona {...ICONA} color={attivo ? COLORE_VOTO[chiave] : 'currentColor'} fill={attivo && chiave !== 'non-interessa' ? COLORE_VOTO[chiave] : 'none'} />
               </motion.span>
             </motion.button>
           )
@@ -61,13 +62,18 @@ export function BarraScheda({ onIndietro, voto, daVedere, onVoto }) {
   )
 }
 
-export function BarraWizard({ onIndietro, onSegnalibro, daVedere }) {
+export function BarraWizard({ onIndietro, onSegnalibro, onNascondi, daVedere, nonInteressa }) {
   return (
     <div className="barra">
       <button className="bolla vetro" onClick={onIndietro} aria-label="Interrompi"><ChevronLeft {...ICONA} /></button>
-      <motion.button whileTap={{ scale: 0.9 }} className="bolla vetro" onClick={onSegnalibro} aria-label="Da vedere" aria-pressed={!!daVedere}>
-        <Bookmark {...ICONA} {...(daVedere ? { color: COLORE_VOTO['da-vedere'], fill: COLORE_VOTO['da-vedere'] } : {})} />
-      </motion.button>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <motion.button whileTap={{ scale: 0.9 }} className="bolla vetro" onClick={onNascondi} aria-label="Non mi interessa" aria-pressed={!!nonInteressa}>
+          <EyeOff {...ICONA} {...(nonInteressa ? { color: COLORE_VOTO['non-interessa'] } : {})} />
+        </motion.button>
+        <motion.button whileTap={{ scale: 0.9 }} className="bolla vetro" onClick={onSegnalibro} aria-label="Da vedere" aria-pressed={!!daVedere}>
+          <Bookmark {...ICONA} {...(daVedere ? { color: COLORE_VOTO['da-vedere'], fill: COLORE_VOTO['da-vedere'] } : {})} />
+        </motion.button>
+      </div>
     </div>
   )
 }
