@@ -41,7 +41,8 @@
   --misura-attore-larghezza: 88px;
   --area-sicura-alto: 54px;
   --area-sicura-basso: 34px;
-  --contenuto-spazio-sotto-barra: 114px;
+  --margine-barra: 16px; /* stessa distanza dai lati e dal basso */
+  --contenuto-spazio-sotto-barra: 96px;
   --durata-rapida: 0.18s;
   --durata-media: 0.3s;
 }
@@ -96,7 +97,7 @@ img { display: block; user-select: none; -webkit-user-drag: none; }
 }
 
 /* Barra a bolle */
-.barra { position: absolute; left: 16px; right: 16px; bottom: var(--area-sicura-basso); display: flex; justify-content: space-between; align-items: center; gap: 8px; z-index: 20; pointer-events: none; }
+.barra { position: absolute; left: var(--margine-barra); right: var(--margine-barra); bottom: var(--margine-barra); display: flex; justify-content: space-between; align-items: center; gap: 8px; z-index: 20; pointer-events: none; }
 .barra > * { pointer-events: auto; }
 .bolla { width: var(--misura-bolla); height: var(--misura-bolla); border-radius: var(--raggio-pillola); display: grid; place-items: center; transition: background var(--durata-rapida); }
 .bolla:active { background: var(--vetro-fondo-premuto); }
