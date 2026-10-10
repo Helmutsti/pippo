@@ -59,7 +59,7 @@ function Blocco({ titolo, children }) {
   )
 }
 
-// Riquadro del regista (solo film), da bordo a bordo: foto, "Regia di" e nome, quanti film e Oscar, poi "Altro di …" con i suoi film piccoli,
+// Riquadro del regista (solo film), con i margini della pagina: foto, "Regia di" e nome, quanti film e Oscar, poi "Altro di …" con i suoi film piccoli,
 // tre per riga, che scorrono di lato. Con più registi: foto a mazzo, nomi insieme, film mescolati e Oscar sommati.
 function RiquadroRegia({ t, onApri, onArtista }) {
   const { nonInteressa } = useStore()
@@ -73,7 +73,7 @@ function RiquadroRegia({ t, onApri, onArtista }) {
   const elenco = (n) => (n.length < 2 ? n[0] : `${n.slice(0, -1).join(', ')} e ${n.at(-1)}`)
 
   return (
-    <section>
+    <section style={{ padding: '0 var(--spazio-pagina)' }}>
       <div className="riquadro-regia vetro">
         {persone[0].foto && <img className="riquadro-regia-sfondo" src={persone[0].foto} alt="" />}
         {/* foto e nome aprono la scheda artista (con più registi, quella del primo) */}
