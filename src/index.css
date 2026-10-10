@@ -51,6 +51,8 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body, #root { height: 100%; }
+/* la pagina non scorre mai: scorrono solo le schermate dentro */
+html, body { overflow: hidden; }
 body {
   background: var(--sfondo-app);
   color: var(--testo-primario);
@@ -179,7 +181,9 @@ img { display: block; user-select: none; -webkit-user-drag: none; }
 .cerca-gruppo { display: flex; flex-direction: column; gap: 4px; }
 .cerca-campo { display: flex; gap: var(--spazio-icona); padding: 0 var(--spazio-pagina) var(--margine-barra); }
 .campo-ricerca { flex: 1; height: 44px; border-radius: var(--raggio-pillola); padding: 0 14px; display: flex; align-items: center; gap: var(--spazio-icona); }
-.campo-ricerca input { flex: 1; min-width: 0; background: none; border: 0; outline: none; color: var(--testo-primario); font-family: inherit; -webkit-appearance: none; appearance: none; }
+/* 16 px: con un testo più piccolo Safari su iPhone ingrandisce la pagina quando il campo prende il focus
+   (la x finiva fuori dallo schermo e, scorrendo, la pagina ingrandita si spostava) */
+.campo-ricerca input { font-size: 16px; line-height: 22px; flex: 1; min-width: 0; background: none; border: 0; outline: none; color: var(--testo-primario); font-family: inherit; -webkit-appearance: none; appearance: none; }
 .campo-ricerca input::placeholder { color: var(--testo-terziario); }
 .campo-ricerca input::-webkit-search-cancel-button { display: none; }
 .bolla-piccola { flex: none; width: 40px; height: 40px; border-radius: var(--raggio-pillola); display: grid; place-items: center; transition: background var(--durata-rapida); }

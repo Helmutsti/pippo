@@ -11,11 +11,12 @@ import Fila from '../components/Fila.jsx'
 const frase = fraseDiOggi()
 
 export default function Home({ onApri, onFiltri, onWizard, onLibreria, onCerca, scrollRef }) {
-  const { daVedere, nonInteressa } = useStore()
+  const { nonInteressa } = useStore()
   // i titoli segnati "non mi interessa" non vengono più proposti; i filtri non toccano la Home (aprono i Risultati)
   const passa = (id) => TITOLI[id] && !nonInteressa[id]
   const suggerimenti = SUGGERIMENTI.filter(passa).slice(0, 5)
-  const watchlist = Object.keys(daVedere).filter(passa)
+  // la Home serve a esplorare: niente watch list qui (la lista "Da vedere" sta nella Libreria)
+  const piuVotati = Object.values(TITOLI).sort((a, b) => parseFloat(b.imdb.replace(',', '.')) - parseFloat(a.imdb.replace(',', '.'))).map((t) => t.id)
   // Il carosello si adatta: la copertina è la più grande che lascia "Non sai cosa scegliere?" sopra la barra.
   // Sotto la copertina e la frase in alto restano fissi 291 px (area sicura, spazi, titolo, pallini, pulsante)
   // e la barra con il suo margine ne occupa 88.
@@ -47,9 +48,9 @@ export default function Home({ onApri, onFiltri, onWizard, onLibreria, onCerca, 
           </div>
 
           {FILE_HOME.map((f) => {
-            const ids = (f.watchlist ? watchlist : f.ids).filter(passa)
+            const ids = (f.piuVotati ? piuVotati : f.ids).filter(passa).slice(0, 10)
             if (!ids.length) return null
-            return <FilaCopertine key={f.titolo} titolo={f.titolo} ids={ids} onApri={onApri} senzaSegnalibro={f.watchlist} />
+            return <FilaCopertine key={f.titolo} titolo={f.titolo} ids={ids} onApri={onApri} />
           })}
 
           <section className="sezione-fila">

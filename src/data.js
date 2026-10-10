@@ -150,8 +150,9 @@ const EXTRA = FILM_EXTRA_IDS.flatMap((film, i) => [film, SERIE_EXTRA_IDS[i]]).fi
 // i primi 5 che rispettano i filtri
 export const SUGGERIMENTI = ['dune', 'oppenheimer', 'interstellar', 'arrival', 'bladerunner', 'fallout', 'bear', 'ripley', 'inception', 'sicario', 'dunkirk', 'prestige', 'tlou2', ...EXTRA]
 export const FILE_HOME = [
-  { titolo: 'Simili ai tuoi gusti', ids: ['bladerunner', 'arrival', 'sicario', 'interstellar', 'inception'] },
-  { titolo: 'Dalla tua watch list', watchlist: true, ids: ['stranger', 'tlou1', 'ripley'] },
+  { titolo: 'Scopri qualcosa di nuovo', ids: ['bladerunner', 'arrival', 'sicario', 'interstellar', 'inception'] },
+  // i più votati dalla community: nel prototipo non c'è una community, si usa il voto IMDb al suo posto
+  { titolo: 'I più votati', piuVotati: true },
   { titolo: 'Nuovi sulle tue piattaforme', ids: ['fallout', 'tlou2', 'bear'] },
 ]
 // Generi: illustrazioni piatte in un solo colore con le sue sfumature (versione scura scelta in Figma)
