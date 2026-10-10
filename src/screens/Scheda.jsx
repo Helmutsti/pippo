@@ -5,7 +5,7 @@ import { BarraScheda } from '../components/Barra.jsx'
 
 export default function Scheda({ id, onIndietro, onApri }) {
   const t = TITOLI[id]
-  const { voti, alterna } = useStore()
+  const { voti, daVedere, alterna } = useStore()
 
   return (
     <div className="schermata">
@@ -40,7 +40,7 @@ export default function Scheda({ id, onIndietro, onApri }) {
           {t.simili?.length > 0 && <FilaCopertine titolo="Titoli simili" ids={t.simili} onApri={onApri} />}
         </div>
       </div>
-      <BarraScheda onIndietro={onIndietro} voto={voti[id]} onVoto={(v) => alterna(id, v)} />
+      <BarraScheda onIndietro={onIndietro} voto={voti[id]} daVedere={!!daVedere[id]} onVoto={(v) => alterna(id, v)} />
     </div>
   )
 }

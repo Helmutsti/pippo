@@ -23,7 +23,7 @@ export function BarraHome({ onCarte }) {
   )
 }
 
-export function BarraScheda({ onIndietro, voto, onVoto }) {
+export function BarraScheda({ onIndietro, voto, daVedere, onVoto }) {
   const azioni = [
     ['like', Heart, 'Mi è piaciuto'],
     ['dislike', ThumbsDown, 'Non mi è piaciuto'],
@@ -34,7 +34,7 @@ export function BarraScheda({ onIndietro, voto, onVoto }) {
       <button className="bolla vetro" onClick={onIndietro} aria-label="Indietro"><ChevronLeft {...ICONA} /></button>
       <div className="pillola-barra vetro">
         {azioni.map(([chiave, Icona, etichetta]) => {
-          const attivo = voto === chiave
+          const attivo = chiave === 'da-vedere' ? daVedere : voto === chiave
           return (
             <motion.button
               key={chiave}

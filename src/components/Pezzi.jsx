@@ -28,16 +28,17 @@ export function TestaSezione({ titolo, piccola }) {
   )
 }
 
-// Fila di copertine
-export function FilaCopertine({ titolo, ids, onApri, senzaVoto }) {
-  const { voti } = useStore()
+// Fila di copertine. Nell'angolo il voto; se non c'è, il segnalibro dei titoli da vedere
+// (non nella fila della watch list, dove sarebbe su tutti)
+export function FilaCopertine({ titolo, ids, onApri, senzaSegnalibro }) {
+  const { voti, daVedere } = useStore()
   return (
     <section className="sezione-fila">
       <TestaSezione titolo={titolo} />
       <Fila>
         {ids.map((id) => {
           const t = TITOLI[id]
-          const v = !senzaVoto && voti[id]
+          const v = voti[id] || (!senzaSegnalibro && daVedere[id] && 'da-vedere')
           const [Segno, colore] = (v && SEGNO[v]) || []
           return (
             <button key={id} className="copertina-fila" onClick={() => onApri(id)}>

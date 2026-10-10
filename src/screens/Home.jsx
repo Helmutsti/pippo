@@ -6,10 +6,10 @@ import { BarraHome } from '../components/Barra.jsx'
 import Fila from '../components/Fila.jsx'
 
 export default function Home({ onApri, onFiltri, onWizard, scrollRef }) {
-  const { voti, filtri, setFiltri } = useStore()
+  const { daVedere, filtri, setFiltri } = useStore()
   const passa = (id) => rispettaFiltri(TITOLI[id], filtri)
   const suggerimenti = SUGGERIMENTI.filter(passa).slice(0, 5)
-  const watchlist = Object.keys(voti).filter((id) => voti[id] === 'da-vedere')
+  const watchlist = Object.keys(daVedere)
 
   return (
     <div className="schermata">
@@ -34,7 +34,7 @@ export default function Home({ onApri, onFiltri, onWizard, scrollRef }) {
           {FILE_HOME.map((f) => {
             const ids = (f.watchlist ? watchlist : f.ids).filter(passa)
             if (!ids.length) return null
-            return <FilaCopertine key={f.titolo} titolo={f.titolo} ids={ids} onApri={onApri} senzaVoto={f.watchlist} />
+            return <FilaCopertine key={f.titolo} titolo={f.titolo} ids={ids} onApri={onApri} senzaSegnalibro={f.watchlist} />
           })}
 
           <section className="sezione-fila">
