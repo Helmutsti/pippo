@@ -26,10 +26,11 @@ export default function Profilo({ onHome, onCerca, onLibreria, onWizard, onNasco
             <button className="pillola t-pillola" disabled>Modifica</button>
           </header>
 
-          <div style={{ padding: '0 var(--spazio-pagina)' }}>
+          {/* spazio in più sopra: le carte escono dal riquadro e non devono toccare "Modifica" */}
+          <div style={{ padding: '0 var(--spazio-pagina)', marginTop: 20 }}>
             <motion.button whileTap={{ scale: 0.98 }} className="carta-wizard vetro" onClick={onWizard}>
               <span className="mazzo">
-                {mazzo.map((src, i) => <img key={src} src={src} alt="" style={{ transform: `translateX(${[-12, 12, 0][i]}px) rotate(${[-10, 10, 0][i]}deg)` }} />)}
+                {mazzo.map((src, i) => <img key={src} src={src} alt="" style={{ transform: `translateX(${[-11, 11, 0][i]}px) rotate(${[-8, 8, 0][i]}deg)` }} />)}
               </span>
               <span style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 4, textAlign: 'left' }}>
                 <span className="t-titolo-sezione">Scopri nuovi film</span>
