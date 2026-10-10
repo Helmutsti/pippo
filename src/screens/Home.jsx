@@ -1,9 +1,12 @@
-import { FILE_HOME, FILTRI_VUOTI, GENERI, SUGGERIMENTI, TITOLI, rispettaFiltri } from '../data.js'
+import { FILE_HOME, FILTRI_VUOTI, GENERI, SUGGERIMENTI, TITOLI, fraseDiOggi, rispettaFiltri } from '../data.js'
 import { useStore } from '../store.jsx'
 import Carosello from '../components/Carosello.jsx'
 import { FilaCopertine, TestaSezione } from '../components/Pezzi.jsx'
 import { BarraHome } from '../components/Barra.jsx'
 import Fila from '../components/Fila.jsx'
+
+// Una frase per apertura dell'app (scelta una volta sola, anche se la Home si ridisegna)
+const frase = fraseDiOggi()
 
 export default function Home({ onApri, onFiltri, onWizard, scrollRef }) {
   const { daVedere, filtri, setFiltri } = useStore()
@@ -15,7 +18,10 @@ export default function Home({ onApri, onFiltri, onWizard, scrollRef }) {
     <div className="schermata">
       <div className="scorre" ref={scrollRef}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spazio-sezione)', padding: 'var(--area-sicura-alto) 0 var(--contenuto-spazio-sotto-barra)' }}>
-          <h1 className="t-titolo-pagina" style={{ padding: '0 var(--spazio-pagina)' }}>Puoi guardare…</h1>
+          <header style={{ padding: '0 var(--spazio-pagina)', display: 'flex', flexDirection: 'column', gap: 'var(--spazio-icona)' }}>
+            <h1 className="t-titolo-pagina">{frase}</h1>
+            <p className="t-titolo-sezione c-sec">Potresti guardare…</p>
+          </header>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spazio-gruppo)' }}>
             {suggerimenti.length ? (

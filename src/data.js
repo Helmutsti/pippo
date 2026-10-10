@@ -175,3 +175,18 @@ export function rispettaFiltri(t, f) {
   if (f.piattaforme.length && !f.piattaforme.some((x) => t.piattaforme.includes(x))) return false
   return true
 }
+
+// Frasi in cima alla Home: una per apertura, a rotazione
+export const FRASI_HOME = ['Popcorn pronti?', 'Divano: attivato.', 'Ciak, si sceglie!', 'Il telecomando è tuo.', 'Basta scrollare a vuoto.', 'Stasera niente spoiler.']
+
+// Sceglie la frase successiva a quella dell'ultima apertura; senza memoria del browser ne prende una a caso
+export function fraseDiOggi() {
+  const n = FRASI_HOME.length
+  try {
+    const i = (Number(localStorage.getItem('movinder-frase')) + 1) % n || 0
+    localStorage.setItem('movinder-frase', String(i))
+    return FRASI_HOME[i]
+  } catch {
+    return FRASI_HOME[Math.floor(Math.random() * n)]
+  }
+}
