@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Bookmark, ChevronLeft, EyeOff, GalleryVerticalEnd, Heart, House, Library, Search, ThumbsDown, User } from 'lucide-react'
+import { Bookmark, ChevronLeft, EyeOff, GalleryVerticalEnd, Heart, House, Library, Search, ThumbsDown, User, Users } from 'lucide-react'
 
 const ICONA = { size: 24, strokeWidth: 2 }
 
@@ -11,9 +11,10 @@ export function BarraNavigazione({ attiva, onHome, onLibreria, onCarte }) {
     <div className="barra">
       <nav className="pillola-barra vetro" aria-label="Navigazione">
         <button className={`pulsante-barra${attiva === 'home' ? ' attivo' : ''}`} onClick={onHome} aria-label="Home" aria-current={attiva === 'home'}><House {...ICONA} /></button>
-        {/* Cerca e Profilo non sono ancora disegnate */}
+        {/* Cerca, Community e Profilo non sono ancora disegnate */}
         <button className="pulsante-barra" disabled aria-label="Cerca"><Search {...ICONA} /></button>
         <button className={`pulsante-barra${attiva === 'libreria' ? ' attivo' : ''}`} onClick={onLibreria} aria-label="Libreria" aria-current={attiva === 'libreria'}><Library {...ICONA} /></button>
+        <button className="pulsante-barra" disabled aria-label="Community"><Users {...ICONA} /></button>
         <button className="pulsante-barra" disabled aria-label="Profilo"><User {...ICONA} /></button>
       </nav>
       <button className="bolla vetro" onClick={onCarte} aria-label="Scopri nuovi film">
