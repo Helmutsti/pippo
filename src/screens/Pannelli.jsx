@@ -30,8 +30,8 @@ export function Conferma({ onContinua, onInterrompi }) {
         <p className="t-corpo c-sec">I voti dati finora restano salvati.</p>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <button className="pulsante principale t-pulsante" onClick={onContinua}>Continua</button>
-        <button className="pulsante secondario t-pulsante" onClick={onInterrompi}>Interrompi</button>
+        <button className="pulsante principale t-pulsante" onClick={onInterrompi}>Interrompi</button>
+        <button className="pulsante secondario t-pulsante" onClick={onContinua}>Continua</button>
       </div>
     </Pannello>
   )
