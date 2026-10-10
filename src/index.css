@@ -136,6 +136,17 @@ img { display: block; user-select: none; -webkit-user-drag: none; }
 .genere img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .genere span { position: absolute; left: 12px; bottom: 10px; }
 
+/* Riquadro del regista nella Scheda titolo */
+.riquadro-regia { position: relative; overflow: hidden; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+.riquadro-regia-sfondo { position: absolute; inset: -60px; width: calc(100% + 120px); height: calc(100% + 120px); object-fit: cover; filter: blur(40px); opacity: 0.25; pointer-events: none; }
+.riquadro-regia-persona { position: relative; display: flex; align-items: center; gap: 16px; }
+.mazzo-foto { display: flex; flex: none; }
+.mazzo-foto > * { width: 72px; height: 72px; border-radius: 999px; object-fit: cover; border: 2px solid var(--superficie-pannello); display: grid; place-items: center; background: var(--superficie-pannello); }
+.mazzo-foto > * + * { margin-left: -28px; }
+.film-regia { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 16px) / 3); gap: 8px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x mandatory; }
+.film-regia::-webkit-scrollbar { display: none; }
+.film-regia > * { scroll-snap-align: start; }
+
 /* Griglia di copertine (Libreria, Risultati) */
 .griglia { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--spazio-elemento); row-gap: var(--spazio-blocco); padding: 0 var(--spazio-pagina); }
 .elemento-griglia { display: flex; flex-direction: column; gap: 8px; text-align: left; min-width: 0; }

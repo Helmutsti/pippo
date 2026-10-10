@@ -1,6 +1,7 @@
 import { TITOLI, durata } from '../data.js'
+import { REGISTI, nomiRegia } from '../registi.js'
 import { useStore } from '../store.jsx'
-import { FilaCast, FilaCopertine, Imdb, VeloNascosto } from '../components/Pezzi.jsx'
+import { FilaCast, FilaCopertine, Imdb, SegniAngolo, VeloNascosto } from '../components/Pezzi.jsx'
 import { BarraScheda } from '../components/Barra.jsx'
 
 export default function Scheda({ id, onIndietro, onApri }) {
@@ -37,8 +38,10 @@ export default function Scheda({ id, onIndietro, onApri }) {
             </div>
           </Blocco>
           <Blocco titolo="Trama"><p className="t-corpo c-sec">{t.trama}</p></Blocco>
-          <Blocco titolo={t.regia ? 'Regia' : 'Ideata da'}><p className="t-corpo">{t.regia || t.ideata}</p></Blocco>
+          {/* per le serie resta la riga "Ideata da"; per i film il regista ha il suo riquadro dopo il cast */}
+          {!t.regia && <Blocco titolo="Ideata da"><p className="t-corpo">{t.ideata}</p></Blocco>}
           <FilaCast titolo={t} />
+          {t.regia && <RiquadroRegia t={t} onApri={onApri} />}
           {simili.length > 0 && <FilaCopertine titolo="Titoli simili" ids={simili} onApri={onApri} />}
         </div>
       </div>
@@ -52,6 +55,53 @@ function Blocco({ titolo, children }) {
     <section style={{ padding: '0 var(--spazio-pagina)', display: 'flex', flexDirection: 'column', gap: 8 }}>
       <h2 className="t-etichetta c-ter">{titolo}</h2>
       {children}
+    </section>
+  )
+}
+
+// Riquadro del regista (solo film): foto, "Regia di" e nome, quanti film e Oscar, poi "Altro di …" con i suoi film piccoli,
+// tre per riga, che scorrono di lato. Con più registi: foto a mazzo, nomi insieme, film mescolati e Oscar sommati.
+function RiquadroRegia({ t, onApri }) {
+  const { nonInteressa } = useStore()
+  const nomi = nomiRegia(t.regia)
+  const persone = nomi.map((n) => ({ nome: n, ...(REGISTI[n] || { film: 0, oscar: 0 }) }))
+  const film = Math.max(...persone.map((p) => p.film)) // i film fatti insieme non si contano due volte
+  const oscar = persone.reduce((s, p) => s + p.oscar, 0)
+  const altri = Object.values(TITOLI)
+    .filter((x) => x.id !== t.id && !nonInteressa[x.id] && nomiRegia(x.regia).some((n) => nomi.includes(n)))
+    .sort((a, b) => b.anno - a.anno)
+  const elenco = (n) => (n.length < 2 ? n[0] : `${n.slice(0, -1).join(', ')} e ${n.at(-1)}`)
+
+  return (
+    <section style={{ padding: '0 var(--spazio-pagina)' }}>
+      <div className="riquadro-regia vetro">
+        {persone[0].foto && <img className="riquadro-regia-sfondo" src={persone[0].foto} alt="" />}
+        <div className="riquadro-regia-persona">
+          <div className="mazzo-foto">
+            {persone.map((p) => p.foto
+              ? <img key={p.nome} src={p.foto} alt="" />
+              : <span key={p.nome} className="t-pulsante">{p.nome.split(' ').map((x) => x[0]).join('')}</span>)}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: 0 }}>
+            <span className="t-etichetta c-ter">Regia di</span>
+            <span className="t-pulsante">{elenco(nomi)}</span>
+            <span className="t-didascalia c-sec">{film} film{oscar > 0 ? ` · ${oscar} Oscar` : ''}</span>
+          </div>
+        </div>
+        {altri.length > 0 && (
+          <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span className="t-etichetta c-ter">Altro di {elenco(nomi)}</span>
+            <div className="film-regia">
+              {altri.map((x) => (
+                <button key={x.id} className="elemento-griglia" onClick={() => onApri(x.id)}>
+                  <div className="img"><img src={x.poster} alt="" loading="lazy" /><SegniAngolo id={x.id} /></div>
+                  <span className="t-didascalia">{x.titolo}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </section>
   )
 }
