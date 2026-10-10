@@ -61,12 +61,12 @@ export function BarraScheda({ onIndietro, voto, daVedere, onVoto }) {
   )
 }
 
-export function BarraWizard({ onIndietro, onSegnalibro }) {
+export function BarraWizard({ onIndietro, onSegnalibro, daVedere }) {
   return (
     <div className="barra">
       <button className="bolla vetro" onClick={onIndietro} aria-label="Interrompi"><ChevronLeft {...ICONA} /></button>
-      <motion.button whileTap={{ scale: 0.9 }} className="bolla vetro" onClick={onSegnalibro} aria-label="Da vedere">
-        <Bookmark {...ICONA} />
+      <motion.button whileTap={{ scale: 0.9 }} className="bolla vetro" onClick={onSegnalibro} aria-label="Da vedere" aria-pressed={!!daVedere}>
+        <Bookmark {...ICONA} {...(daVedere ? { color: COLORE_VOTO['da-vedere'], fill: COLORE_VOTO['da-vedere'] } : {})} />
       </motion.button>
     </div>
   )

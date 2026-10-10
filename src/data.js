@@ -147,7 +147,7 @@ export const FILE_HOME = [
   { titolo: 'Nuovi sulle tue piattaforme', ids: ['fallout', 'tlou2', 'bear'] },
 ]
 // Generi: illustrazioni piatte in un solo colore con le sue sfumature (versione scura scelta in Figma)
-export const GENERI = ['Fantascienza', 'Thriller', 'Drammatico', 'Commedia', 'Fantastico', 'Avventura']
+export const GENERI = ['Fantascienza', 'Thriller', 'Drammatico', 'Commedia', 'Fantastico', 'Avventura', 'Horror', 'Romantico', 'Animazione', 'Azione', 'Crime', 'Documentario']
   .map((nome) => ({ nome, illustrazione: `/generi/${nome.toLowerCase()}.svg` }))
 
 // Wizard: titoli da scoprire, uno alla volta
@@ -177,7 +177,11 @@ export function rispettaFiltri(t, f) {
 }
 
 // Frasi in cima alla Home: una per apertura, a rotazione
-export const FRASI_HOME = ['Popcorn pronti?', 'Divano: attivato.', 'Ciak, si sceglie!', 'Il telecomando è tuo.', 'Basta scrollare a vuoto.', 'Stasera niente spoiler.']
+export const FRASI_HOME = [
+  'Popcorn pronti?', 'Divano: attivato.', 'Ciak, si sceglie!', 'Il telecomando è tuo.', 'Basta scrollare a vuoto.', 'Stasera niente spoiler.',
+  'Coperta e via.', 'Pausa meritata.', 'Un altro episodio?', 'Luci spente, si parte.', 'Scegliere è metà del film.',
+  'Ti meriti una bella storia.', 'Zero ansia da catalogo.', 'Che si guarda stasera?', 'Il divano ti aspetta.', 'Mettiti comodo.',
+]
 
 // Sceglie la frase successiva a quella dell'ultima apertura; senza memoria del browser ne prende una a caso
 export function fraseDiOggi() {

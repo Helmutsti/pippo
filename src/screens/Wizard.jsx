@@ -23,7 +23,7 @@ const VOTI = {
 }
 
 export default function Wizard({ onInterrompi, inPausa }) {
-  const { vota } = useStore()
+  const { vota, daVedere } = useStore()
   const [indice, setIndice] = useState(0)
   const [girata, setGirata] = useState(false)
   const [bolle, setBolle] = useState([])
@@ -31,6 +31,8 @@ export default function Wizard({ onInterrompi, inPausa }) {
   const occupato = useRef(false)
   const x = useMotionValue(0)
   const y = useMotionValue(0)
+  const comparsa = useMotionValue(1) // 0 → 1: la carta successiva compare dopo un voto
+  const ultimoVoto = useRef(0)
   const schermo = useSchermo()
   const CARTA = misureCarta(schermo)
   const PASSO_Y = CARTA.h + 12
@@ -38,39 +40,42 @@ export default function Wizard({ onInterrompi, inPausa }) {
   // Quando cambia carta, la nuova prende il posto della vecchia senza salti
   useLayoutEffect(() => { x.set(0); y.set(0); setGirata(false); setSegnalibro(false) }, [indice, x, y])
 
-  const finito = indice >= WIZARD.length
-  const id = WIZARD[indice]
+  // Il wizard non finisce mai: in teoria scorre tutto il catalogo, nel prototipo ricomincia dai primi titoli
+  const titoloA = (i) => WIZARD[((i % WIZARD.length) + WIZARD.length) % WIZARD.length]
+  const id = titoloA(indice)
 
   const passaA = useCallback(async (verso) => {
     const nuovo = indice + verso
-    if (nuovo < 0) { await animate(y, 0, MOLLA); return }
     await animate(y, -verso * PASSO_Y, { type: 'spring', stiffness: 260, damping: 32, restDelta: 1 })
     setIndice(nuovo)
   }, [indice, y, PASSO_Y])
 
   const dai = useCallback(async (voto) => {
-    if (occupato.current || finito) return
+    if (occupato.current) return
     occupato.current = true
     vota(id, voto)
+    ultimoVoto.current = Date.now()
     const verso = voto === 'like' ? 1 : -1
     // la bolla parte dove si trova l'icona sulla carta
     const partenzaX = Math.max(-110, Math.min(110, x.get()))
-    animate(x, verso * 520, { duration: 0.28, ease: 'easeIn' })
-    setTimeout(() => setBolle((b) => [...b, { chiave: Date.now(), voto, partenzaX }]), 200)
-    await new Promise((r) => setTimeout(r, 260))
-    await passaA(1)
+    setBolle((b) => [...b, { chiave: Date.now(), voto, partenzaX }])
+    // la carta vola via di lato e la successiva compare subito al suo posto, senza scorrere
+    await animate(x, verso * (CARTA.w + 160), { duration: 0.18, ease: 'easeIn' })
+    comparsa.set(0)
+    setIndice((i) => i + 1)
+    animate(comparsa, 1, { duration: 0.16, ease: 'easeOut' })
     occupato.current = false
-  }, [finito, id, passaA, vota, x])
+  }, [id, vota, x, comparsa, CARTA.w])
 
   const salva = useCallback(async () => {
-    if (occupato.current || finito) return
+    if (occupato.current) return
     occupato.current = true
     vota(id, 'da-vedere')
     setSegnalibro(true)
     await new Promise((r) => setTimeout(r, 650))
     await passaA(1)
     occupato.current = false
-  }, [finito, id, passaA, vota])
+  }, [id, passaA, vota])
 
   const scorri = useCallback(async (verso) => {
     if (occupato.current) return
@@ -84,7 +89,6 @@ export default function Wizard({ onInterrompi, inPausa }) {
     if (inPausa) return
     const tasto = (e) => {
       if (e.key === 'Escape') onInterrompi()
-      if (finito) return
       if (e.key === 'ArrowRight' && !girata) dai('like')
       else if (e.key === 'ArrowLeft' && !girata) dai('dislike')
       else if (e.key === 'ArrowDown') scorri(1)
@@ -94,7 +98,7 @@ export default function Wizard({ onInterrompi, inPausa }) {
     }
     window.addEventListener('keydown', tasto)
     return () => window.removeEventListener('keydown', tasto)
-  }, [dai, finito, girata, inPausa, onInterrompi, salva, scorri])
+  }, [dai, girata, inPausa, onInterrompi, salva, scorri])
 
   const fineTrascinamento = (_, info) => {
     const asse = Math.abs(info.offset.x) > Math.abs(info.offset.y) ? 'x' : 'y'
@@ -111,29 +115,24 @@ export default function Wizard({ onInterrompi, inPausa }) {
   return (
     <div className="schermata">
       {[-1, 0, 1].map((d) => {
-        const tid = WIZARD[indice + d]
-        if (!tid) {
-          if (d === 1 && !finito) return <Fine key="fine" carta={CARTA} y={y} offset={PASSO_Y} onFine={onInterrompi} />
-          return null
-        }
+        const tid = titoloA(indice + d)
         return (
-          <Carta key={tid} carta={CARTA} t={TITOLI[tid]} attiva={d === 0} offset={d * PASSO_Y} x={x} y={y}
+          <Carta key={indice + d} carta={CARTA} t={TITOLI[tid]} attiva={d === 0} offset={d * PASSO_Y} x={x} y={y} comparsa={comparsa}
             girata={d === 0 && girata} segnalibro={d === 0 && segnalibro}
-            onTap={() => setGirata((g) => !g)} onDragEnd={fineTrascinamento} occupato={occupato} />
+            onTap={() => { if (Date.now() - ultimoVoto.current > 350) setGirata((g) => !g) }} onDragEnd={fineTrascinamento} occupato={occupato} />
         )
       })}
-      {finito && <Fine carta={CARTA} y={y} offset={0} onFine={onInterrompi} />}
 
       <AnimatePresence>
         {bolle.map((b) => <Bolla key={b.chiave} {...b} carta={CARTA} onFine={() => setBolle((bb) => bb.filter((x) => x.chiave !== b.chiave))} />)}
       </AnimatePresence>
 
-      <BarraWizard onIndietro={onInterrompi} onSegnalibro={salva} />
+      <BarraWizard onIndietro={onInterrompi} onSegnalibro={salva} daVedere={!!(id && daVedere[id])} />
     </div>
   )
 }
 
-function Carta({ carta: CARTA, t, attiva, offset, x, y, girata, segnalibro, onTap, onDragEnd, occupato }) {
+function Carta({ carta: CARTA, t, attiva, offset, x, y, comparsa, girata, segnalibro, onTap, onDragEnd, occupato }) {
   const yCarta = useTransform(y, (v) => v + offset)
   const xCarta = useTransform(x, (v) => (attiva ? v : 0))
   const rotate = useTransform(xCarta, [-300, 300], [-12, 12])
@@ -142,7 +141,9 @@ function Carta({ carta: CARTA, t, attiva, offset, x, y, girata, segnalibro, onTa
   const scalaLike = useTransform(like, [0, 1], [0.5, 1])
   const scalaDislike = useTransform(dislike, [0, 1], [0.5, 1])
   // le carte vicine si vedono solo mentre si scorre in verticale
-  const opacity = useTransform(y, (v) => (attiva ? 1 : Math.min(1, Math.abs(v) / 80)))
+  // la carta attiva compare dopo un voto (comparsa 0 → 1)
+  const opacity = useTransform([y, comparsa], ([v, c]) => (attiva ? c : Math.min(1, Math.abs(v) / 80)))
+  const scale = useTransform(comparsa, (c) => (attiva ? 0.94 + 0.06 * c : 1))
   const trascinata = useRef(false)
 
   return (
@@ -157,7 +158,7 @@ function Carta({ carta: CARTA, t, attiva, offset, x, y, girata, segnalibro, onTa
       _dragY={y}
       style={{
         position: 'absolute', left: CARTA.x, top: CARTA.y, width: CARTA.w, height: CARTA.h,
-        x: xCarta, y: yCarta, rotate, opacity, zIndex: attiva ? 2 : 1, perspective: 1400, touchAction: 'none', cursor: attiva ? 'grab' : 'default',
+        x: xCarta, y: yCarta, rotate, scale, opacity, zIndex: attiva ? 2 : 1, perspective: 1400, touchAction: 'none', cursor: attiva ? 'grab' : 'default',
       }}
     >
       <motion.div
@@ -226,17 +227,6 @@ function Bolla({ carta: CARTA, voto, partenzaX, onFine }) {
       style={{ position: 'absolute', left: CARTA.x + CARTA.w / 2 - 60, top: CARTA.y + CARTA.h / 2 - 60, zIndex: 30, pointerEvents: 'none' }}
     >
       <Icona size={120} color={colore} fill={colore} style={ombraIcona} />
-    </motion.div>
-  )
-}
-
-function Fine({ carta: CARTA, y, offset, onFine }) {
-  const yFine = useTransform(y, (v) => v + offset)
-  return (
-    <motion.div style={{ position: 'absolute', left: CARTA.x, top: CARTA.y, width: CARTA.w, height: CARTA.h, y: yFine, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', gap: 16, padding: 32, textAlign: 'center' }}>
-      <h2 className="t-titolo-pannello">Per ora è tutto</h2>
-      <p className="t-corpo c-sec">I tuoi voti sono salvati e aiutano a scegliere i suggerimenti.</p>
-      <button className="pulsante principale t-pulsante" onClick={onFine}>Torna alla Home</button>
     </motion.div>
   )
 }
