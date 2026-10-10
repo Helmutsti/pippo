@@ -4,7 +4,7 @@ import { useStore } from '../store.jsx'
 import { FilaCast, FilaCopertine, Imdb, SegniAngolo, VeloNascosto } from '../components/Pezzi.jsx'
 import { BarraScheda } from '../components/Barra.jsx'
 
-export default function Scheda({ id, onIndietro, onApri }) {
+export default function Scheda({ id, onIndietro, onApri, onArtista }) {
   const t = TITOLI[id]
   const { voti, daVedere, nonInteressa, alterna } = useStore()
   const simili = (t.simili || []).filter((s) => TITOLI[s] && !nonInteressa[s])
@@ -40,8 +40,8 @@ export default function Scheda({ id, onIndietro, onApri }) {
           <Blocco titolo="Trama"><p className="t-corpo c-sec">{t.trama}</p></Blocco>
           {/* per le serie resta la riga "Ideata da"; per i film il regista ha il suo riquadro dopo il cast */}
           {!t.regia && <Blocco titolo="Ideata da"><p className="t-corpo">{t.ideata}</p></Blocco>}
-          <FilaCast titolo={t} />
-          {t.regia && <RiquadroRegia t={t} onApri={onApri} />}
+          <FilaCast titolo={t} onArtista={onArtista} />
+          {t.regia && <RiquadroRegia t={t} onApri={onApri} onArtista={onArtista} />}
           {simili.length > 0 && <FilaCopertine titolo="Titoli simili" ids={simili} onApri={onApri} />}
         </div>
       </div>
@@ -61,7 +61,7 @@ function Blocco({ titolo, children }) {
 
 // Riquadro del regista (solo film), da bordo a bordo: foto, "Regia di" e nome, quanti film e Oscar, poi "Altro di …" con i suoi film piccoli,
 // tre per riga, che scorrono di lato. Con più registi: foto a mazzo, nomi insieme, film mescolati e Oscar sommati.
-function RiquadroRegia({ t, onApri }) {
+function RiquadroRegia({ t, onApri, onArtista }) {
   const { nonInteressa } = useStore()
   const nomi = nomiRegia(t.regia)
   const persone = nomi.map((n) => ({ nome: n, ...(REGISTI[n] || { film: 0, oscar: 0 }) }))
@@ -76,7 +76,8 @@ function RiquadroRegia({ t, onApri }) {
     <section>
       <div className="riquadro-regia vetro">
         {persone[0].foto && <img className="riquadro-regia-sfondo" src={persone[0].foto} alt="" />}
-        <div className="riquadro-regia-persona">
+        {/* foto e nome aprono la scheda artista (con più registi, quella del primo) */}
+        <button className="riquadro-regia-persona" onClick={() => onArtista(nomi[0])}>
           <div className="mazzo-foto">
             {persone.map((p) => p.foto
               ? <img key={p.nome} src={p.foto} alt="" />
@@ -87,7 +88,7 @@ function RiquadroRegia({ t, onApri }) {
             <span className="t-pulsante">{elenco(nomi)}</span>
             <span className="t-didascalia c-sec">{film} film{oscar > 0 ? ` · ${oscar} Oscar` : ''}</span>
           </div>
-        </div>
+        </button>
         {altri.length > 0 && (
           <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 8 }}>
             <span className="t-etichetta c-ter">Altro di {elenco(nomi)}</span>

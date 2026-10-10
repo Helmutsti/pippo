@@ -139,7 +139,10 @@ img { display: block; user-select: none; -webkit-user-drag: none; }
 /* Riquadro del regista nella Scheda titolo */
 .riquadro-regia { position: relative; overflow: hidden; border-radius: 0; border-left: 0; border-right: 0; padding: 16px var(--spazio-pagina); display: flex; flex-direction: column; gap: 16px; }
 .riquadro-regia-sfondo { position: absolute; inset: -60px; width: calc(100% + 120px); height: calc(100% + 120px); object-fit: cover; filter: blur(40px); opacity: 0.25; pointer-events: none; }
-.riquadro-regia-persona { position: relative; display: flex; align-items: center; gap: 16px; }
+.riquadro-regia-persona { position: relative; display: flex; align-items: center; gap: 16px; text-align: left; }
+/* Scheda artista */
+.premio { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 12px; border-radius: 14px; }
+.foto-vuota { width: var(--misura-foto-attore); height: var(--misura-foto-attore); border-radius: 999px; display: grid; place-items: center; background: var(--superficie-pannello); }
 .mazzo-foto { display: flex; flex: none; }
 .mazzo-foto > * { width: 72px; height: 72px; border-radius: 999px; object-fit: cover; border: 2px solid var(--superficie-pannello); display: grid; place-items: center; background: var(--superficie-pannello); }
 .mazzo-foto > * + * { margin-left: -28px; }

@@ -81,18 +81,18 @@ export function FilaCopertine({ titolo, ids, onApri, senzaSegnalibro }) {
 }
 
 // Fila del cast
-export function FilaCast({ titolo }) {
+export function FilaCast({ titolo, onArtista }) {
   const persone = cast(titolo)
   if (!persone.length) return null
   return (
     <section className="sezione-fila">
-      <TestaSezione titolo="Cast" piccola />
+      <TestaSezione titolo="Cast" />
       <Fila style={{ gap: 8 }}>
         {persone.map((p) => (
-          <div key={p.nome} className="attore">
+          <button key={p.nome} className="attore" onClick={(e) => { if (onArtista) { e.stopPropagation(); onArtista(p.nome) } }}>
             <img src={p.foto} alt="" loading="lazy" />
             <span className="t-didascalia">{p.nome}<br /><span className="c-ter">({p.personaggio})</span></span>
-          </div>
+          </button>
         ))}
       </Fila>
     </section>
