@@ -45,7 +45,7 @@ export default function Artista({ nome, onIndietro, onApri, onArtista }) {
             </section>
           )}
 
-          {conosciuta.length > 0 && <FilaCopertine titolo={a.conteggio.length || a.bio ? 'Conosciuta per' : 'Nel catalogo'} ids={conosciuta} onApri={onApri} />}
+          {conosciuta.length > 0 && <FilaCopertine titolo={a.titoloNoti} ids={conosciuta} onApri={onApri} />}
 
           {a.colleghi.length > 0 && (
             <section className="sezione-fila">

@@ -6,8 +6,11 @@
 import { TITOLI, cast } from './data.js'
 import { REGISTI, nomiRegia } from './registi.js'
 
+// genere: serve per accordare le parole ("Conosciuta per" / "Conosciuto per"); si scrive solo quando è noto.
+// Per le persone senza dati si usano parole neutre.
 const DATI = {
   Zendaya: {
+    genere: 'f',
     ruoli: 'Attrice · Cantante',
     nascita: 'Nata il 1° settembre 1996 a Oakland (USA)',
     bio: 'Attrice e cantante statunitense. Cresciuta con le serie Disney, è diventata famosa con Euphoria e con i film di Spider-Man, poi con Dune e Challengers.',
@@ -18,6 +21,7 @@ const DATI = {
     },
   },
   'Timothée Chalamet': {
+    genere: 'm',
     ruoli: 'Attore',
     nascita: 'Nato il 27 dicembre 1995 a New York (USA)',
     bio: 'Attore statunitense. Si è fatto conoscere con Chiamami col tuo nome, che gli è valso la prima candidatura all\'Oscar, e oggi è il volto di Dune e di Wonka.',
@@ -27,6 +31,7 @@ const DATI = {
     },
   },
   'Cillian Murphy': {
+    genere: 'm',
     ruoli: 'Attore',
     nascita: 'Nato il 25 maggio 1976 a Douglas, Cork (Irlanda)',
     bio: 'Attore irlandese, attore feticcio di Christopher Nolan. Famoso per Peaky Blinders, ha vinto l\'Oscar con Oppenheimer.',
@@ -36,6 +41,7 @@ const DATI = {
     },
   },
   'Christopher Nolan': {
+    genere: 'm',
     ruoli: 'Regista · Sceneggiatore · Produttore',
     nascita: 'Nato il 30 luglio 1970 a Londra (Regno Unito)',
     bio: 'Regista e sceneggiatore britannico, famoso per film che giocano con il tempo e la memoria. Ha vinto due Oscar con Oppenheimer.',
@@ -45,6 +51,7 @@ const DATI = {
     },
   },
   'Denis Villeneuve': {
+    genere: 'm',
     ruoli: 'Regista · Sceneggiatore',
     nascita: 'Nato il 3 ottobre 1967 a Gentilly, Québec (Canada)',
     bio: 'Regista canadese. Dai thriller come Prisoners e Sicario è passato alla grande fantascienza con Arrival, Blade Runner 2049 e Dune.',
@@ -102,6 +109,8 @@ export function artista(nome) {
     foto: fotoDi(nome),
     ruoli: dati?.ruoli || ruoliCatalogo,
     nascita: dati?.nascita,
+    // titolo della fila dei titoli più noti, accordato solo se il genere è noto
+    titoloNoti: dati?.genere === 'f' ? 'Conosciuta per' : dati?.genere === 'm' ? 'Conosciuto per' : 'Titoli più noti',
     bio: dati?.bio,
     premi: dati?.premi || [],
     conteggio: Object.entries(conteggio).sort((a, b) => b[1] - a[1]),
