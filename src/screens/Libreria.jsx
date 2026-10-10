@@ -21,11 +21,10 @@ const lettera = (titolo) => {
 // Sotto le pillole "Ordina: … ▾" apre un piccolo menu: A–Z (rubrica per lettere) o Ultime aggiunte (elenco unico, l'ultima in cima).
 // In "Da vedere" ogni riga ha "Visto?": si apre lì la scelta pollice in giù / cuore, per segnare in fretta cosa hai visto.
 export default function Libreria({ onApri, onHome, onProfilo, onCerca }) {
-  const { voti, daVedere, nonInteressa, aggiunti } = useStore()
+  const { voti, daVedere, nonInteressa, aggiunti, ordineLibreria: ordine, setOrdineLibreria: setOrdine } = useStore()
   const [vista, setVista] = useState('elenco') // 'elenco' | 'griglia'
   const [filtro, setFiltro] = useState('Tutti')
   const [aperto, setAperto] = useState(null) // riga con la scelta di "Visto?" aperta
-  const [ordine, setOrdine] = useState('az')
   const [menu, setMenu] = useState(false)
 
   const passa = (id) => {

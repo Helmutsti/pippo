@@ -15,6 +15,8 @@ export function StoreProvider({ children }) {
   const [aggiunti, setAggiunti] = useState({ bear: 1, interstellar: 2, sicario: 3, bladerunner: 4, tlou1: 5, stranger: 6, arrival: 7, ripley: 8 })
   const segnaAggiunto = (id) => setAggiunti((a) => ({ ...a, [id]: Date.now() }))
   const [filtri, setFiltri] = useState(FILTRI_VUOTI)
+  // ordine della Libreria: di base "Ultime aggiunte"; resta quello scelto anche uscendo dalla Libreria
+  const [ordineLibreria, setOrdineLibreria] = useState('recenti')
 
   const value = useMemo(() => ({
     voti,
@@ -23,6 +25,8 @@ export function StoreProvider({ children }) {
     aggiunti,
     filtri,
     setFiltri,
+    ordineLibreria,
+    setOrdineLibreria,
     vota: (id, voto) => {
       if (voto !== 'non-interessa') segnaAggiunto(id)
       if (voto === 'da-vedere') setDaVedere((d) => ({ ...d, [id]: true }))
@@ -38,7 +42,7 @@ export function StoreProvider({ children }) {
       else if (voto === 'non-interessa') setNonInteressa(togli)
       else setVoti(togli)
     },
-  }), [voti, daVedere, nonInteressa, aggiunti, filtri])
+  }), [voti, daVedere, nonInteressa, aggiunti, filtri, ordineLibreria])
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }
