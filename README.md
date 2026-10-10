@@ -18,5 +18,13 @@ Poi aprire l'indirizzo che compare (es. http://localhost:5173). Sul computer si 
 
 Cerca, Libreria e Profilo non sono ancora disegnate: i loro pulsanti nella barra non fanno niente.
 
+## Immagine Docker
+Caricando su GitHub una versione (es. `git tag v1.0.0 && git push origin v1.0.0`) parte da sola la pubblicazione dell'immagine su GitHub Container Registry, privata come il repository.
+```
+docker login ghcr.io
+docker run -p 8080:80 ghcr.io/helmutsti/pippo:latest
+```
+Poi aprire http://localhost:8080.
+
 ## Immagini
 Copertine e foto da Wikipedia, a bassa risoluzione e coperte da diritti: solo per uso interno. Voti IMDb e durate scritti a memoria, non verificati.
