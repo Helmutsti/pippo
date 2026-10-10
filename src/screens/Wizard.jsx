@@ -152,10 +152,20 @@ export default function Wizard({ onInterrompi, inPausa }) {
   return (
     <div className="schermata">
       {/* Prolungamento: la copertina della carta attiva, sfocata e scurita, su tutto lo schermo */}
-      <AnimatePresence initial={false}>
-        <motion.img key={id} src={TITOLI[id].poster} alt="" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}
-          style={{ position: 'absolute', inset: -80, width: 'calc(100% + 160px)', height: 'calc(100% + 160px)', objectFit: 'cover', filter: 'blur(40px)' }} />
-      </AnimatePresence>
+      {/* Gli sfondi della carta precedente e della successiva sono già pronti sotto: al cambio di carta
+          si scambia solo l'opacità, senza aspettare che l'immagine si carichi e si sfochi.
+          La sfocatura si calcola su un'immagine piccola ingrandita 4 volte: costa molto meno. */}
+      {[-1, 0, 1].map((d) => {
+        const tid = titoloA(indice + d)
+        if (!tid) return null
+        return (
+          <motion.div key={indice + d} initial={false} animate={{ opacity: d === 0 ? 1 : 0 }} transition={{ duration: 0.25 }}
+            style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+            <img src={TITOLI[tid].poster} alt="" decoding="async"
+              style={{ position: 'absolute', left: '-10%', top: '-10%', width: '30%', height: '30%', objectFit: 'cover', filter: 'blur(10px)', transform: 'scale(4)', transformOrigin: 'top left' }} />
+          </motion.div>
+        )
+      })}
       <div style={{ position: 'absolute', inset: 0, background: 'var(--velo-scuro)' }} />
       {nonInteressa[id] && <VeloNascosto icona={null} />}
       {[-1, 0, 1].map((d) => {
