@@ -13,14 +13,16 @@ Poi aprire l'indirizzo che compare (es. http://localhost:5173). Occupa tutto lo 
 ## Cosa si può fare
 - **Home:** il carosello dei suggerimenti si trascina di lato e gira all'infinito; tocco su qualsiasi copertina → Scheda titolo. Il segnalibro accanto al titolo mette o toglie il suggerimento da "Da vedere". "Vedi tutto" accanto alle sezioni apre la griglia completa (titoli, persone o generi). "Non sai cosa scegliere?" apre i filtri, che restringono davvero suggerimenti e file. Le copertine aprono la Scheda titolo.
 - **Scheda titolo:** cuore, pollice in giù e segnalibro segnano il titolo (toccati di nuovo si tolgono); il segnalibro lo aggiunge a "Da vedere" nella Libreria.
-- **Wizard** (bolla con le carte nella barra): trascina a destra = mi è piaciuto, a sinistra = non mi è piaciuto, su = successivo, giù = precedente, tocco = gira la carta. Segnalibro = da vedere. Freccia = conferma per uscire.
+- **Wizard** (carta "Scopri nuovi film" nel Profilo): trascina a destra = mi è piaciuto, a sinistra = non mi è piaciuto, su = successivo, giù = precedente, tocco = gira la carta. Segnalibro = da vedere. Freccia = conferma per uscire.
 - **Tastiera nel wizard:** frecce destra/sinistra (voto), giù/su (successivo/precedente), spazio (gira), B (da vedere), Esc (esci).
 
 - **Cerca** (lente nella barra): vetro scuro a tutto schermo con il campo in basso e la tastiera aperta. Si cerca per titolo, attori, regia. I risultati partono dal basso, divisi in "Nella tua libreria" e "Altri titoli"; segnalibro e cuore su ogni riga, tocco sulla riga → Scheda titolo (tornando indietro si ritrova la ricerca). Scorrendo la lista la tastiera si chiude; la x chiude la ricerca.
 - **Libreria** (dalla barra): titoli votati o da vedere divisi per lettera come una rubrica; in alto a destra griglia o elenco; pillole Tutti, Piaciuti, Non piaciuti, Da vedere. In Da vedere (elenco) "Visto?" apre pollice in giù e cuore per segnare in fretta cosa hai visto. I titoli "Non mi interessa" non compaiono (avranno una pagina nel Profilo).
 - **Risultati** (da "Mostra N titoli" nei filtri).
 
-Community e Profilo non sono ancora disegnate: i loro pulsanti nella barra non fanno niente.
+- **Profilo** (dalla barra): foto, dati, "Modifica" (per ora non fa niente), la carta che apre il wizard, "Non mi interessa" con i titoli nascosti e "Ripristina", Impostazioni (per ora non fa niente).
+
+La Community non è ancora disegnata: il suo pulsante nella barra non fa niente.
 
 ## Immagine Docker
 Caricando su GitHub una versione (es. `git tag v1.0.0 && git push origin v1.0.0`) parte da sola la pubblicazione dell'immagine su GitHub Container Registry, privata come il repository.

@@ -8,6 +8,8 @@ import Scheda from './screens/Scheda.jsx'
 import Cerca from './screens/Cerca.jsx'
 import Artista from './screens/Artista.jsx'
 import VediTutto from './screens/VediTutto.jsx'
+import Profilo from './screens/Profilo.jsx'
+import NonMiInteressa from './screens/NonMiInteressa.jsx'
 import Wizard from './screens/Wizard.jsx'
 import { Conferma, Filtri } from './screens/Pannelli.jsx'
 
@@ -19,18 +21,19 @@ export default function App() {
   )
 }
 
-// Home e Libreria sono le voci della barra; sopra si impilano Scheda titolo e Risultati (entrano da destra),
+// Home, Libreria e Profilo sono le voci della barra; il wizard si apre dal Profilo e, interrotto, riporta dove si era; sopra si impilano Scheda titolo e Risultati (entrano da destra),
 // il wizard e Cerca (dissolvenza). Da Cerca si apre la Scheda titolo sopra la ricerca: tornando indietro si ritrova la ricerca.
 function Navigazione() {
   const { setFiltri } = useStore()
-  const [voce, setVoce] = useState('home') // 'home' | 'libreria'
+  const [voce, setVoce] = useState('home') // 'home' | 'libreria' | 'profilo'
   const [pila, setPila] = useState([])
   const [pannello, setPannello] = useState(null) // 'filtri' | 'conferma'
   const scrollHome = useRef(null)
 
   const apri = (schermata) => setPila((p) => [...p, { ...schermata, chiave: Date.now() }])
   const indietro = () => setPila((p) => p.slice(0, -1))
-  const allaHome = () => { setPannello(null); setPila([]); setVoce('home') }
+  // interrompere il wizard lo chiude e si torna alla schermata da cui era partito
+  const chiudiWizard = () => { setPannello(null); setPila((p) => p.filter((s) => s.nome !== 'wizard')) }
   const apriScheda = (id) => apri({ nome: 'scheda', id })
   const apriWizard = () => apri({ nome: 'wizard' })
   const apriCerca = () => apri({ nome: 'cerca' })
@@ -47,9 +50,11 @@ function Navigazione() {
   return (
     <div className="telefono">
       {voce === 'home' ? (
-        <Home scrollRef={scrollHome} onApri={apriScheda} onFiltri={() => setPannello('filtri')} onWizard={apriWizard} onLibreria={() => setVoce('libreria')} onCerca={apriCerca} onVediTutto={apriTutti} />
+        <Home scrollRef={scrollHome} onApri={apriScheda} onFiltri={() => setPannello('filtri')} onLibreria={() => setVoce('libreria')} onProfilo={() => setVoce('profilo')} onCerca={apriCerca} onVediTutto={apriTutti} />
+      ) : voce === 'libreria' ? (
+        <Libreria onApri={apriScheda} onHome={() => setVoce('home')} onProfilo={() => setVoce('profilo')} onCerca={apriCerca} />
       ) : (
-        <Libreria onApri={apriScheda} onHome={() => setVoce('home')} onWizard={apriWizard} onCerca={apriCerca} />
+        <Profilo onHome={() => setVoce('home')} onLibreria={() => setVoce('libreria')} onCerca={apriCerca} onWizard={apriWizard} onNascosti={() => apri({ nome: 'nascosti' })} />
       )}
 
       <AnimatePresence initial={false}>
@@ -70,6 +75,8 @@ function Navigazione() {
                 ? <Scheda id={s.id} onIndietro={indietro} onApri={apriScheda} onArtista={apriArtista} onVediTutto={apriTutti} />
                 : s.nome === 'artista'
                 ? <Artista nome={s.persona} onIndietro={indietro} onApri={apriScheda} onArtista={apriArtista} onVediTutto={apriTutti} />
+                : s.nome === 'nascosti'
+                ? <NonMiInteressa onIndietro={indietro} onApri={apriScheda} />
                 : s.nome === 'tutti'
                 ? <VediTutto {...s.cosa} onIndietro={indietro} onApri={apriScheda} onArtista={apriArtista} />
                 : <Risultati onIndietro={indietro} onApri={apriScheda} onModifica={() => setPannello('filtri')} />}
@@ -80,7 +87,7 @@ function Navigazione() {
 
       <AnimatePresence>
         {pannello === 'filtri' && <Filtri key="filtri" onChiudi={() => setPannello(null)} onApplica={applicaFiltri} />}
-        {pannello === 'conferma' && <Conferma key="conferma" onContinua={() => setPannello(null)} onInterrompi={allaHome} />}
+        {pannello === 'conferma' && <Conferma key="conferma" onContinua={() => setPannello(null)} onInterrompi={chiudiWizard} />}
       </AnimatePresence>
     </div>
   )

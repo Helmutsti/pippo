@@ -20,7 +20,7 @@ const lettera = (titolo) => {
 // I titoli "Non mi interessa" non sono qui: avranno una pagina loro nel Profilo.
 // Sotto le pillole "Ordina: … ▾" apre un piccolo menu: A–Z (rubrica per lettere) o Ultime aggiunte (elenco unico, l'ultima in cima).
 // In "Da vedere" ogni riga ha "Visto?": si apre lì la scelta pollice in giù / cuore, per segnare in fretta cosa hai visto.
-export default function Libreria({ onApri, onHome, onWizard, onCerca }) {
+export default function Libreria({ onApri, onHome, onProfilo, onCerca }) {
   const { voti, daVedere, nonInteressa, aggiunti } = useStore()
   const [vista, setVista] = useState('elenco') // 'elenco' | 'griglia'
   const [filtro, setFiltro] = useState('Tutti')
@@ -106,7 +106,7 @@ export default function Libreria({ onApri, onHome, onWizard, onCerca }) {
           )}
         </div>
       </div>
-      <BarraNavigazione attiva="libreria" onHome={onHome} onCerca={onCerca} onCarte={onWizard} />
+      <BarraNavigazione attiva="libreria" onHome={onHome} onCerca={onCerca} onProfilo={onProfilo} />
     </div>
   )
 }

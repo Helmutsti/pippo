@@ -1,25 +1,23 @@
 import { motion } from 'framer-motion'
-import { Bookmark, ChevronLeft, EyeOff, GalleryVerticalEnd, Heart, House, Library, Search, ThumbsDown, User, Users } from 'lucide-react'
+import { Bookmark, ChevronLeft, EyeOff, Heart, House, Library, Search, ThumbsDown, User, Users } from 'lucide-react'
 
 const ICONA = { size: 24, strokeWidth: 2 }
 
 const COLORE_VOTO = { like: 'var(--voto-like)', dislike: 'var(--voto-dislike)', 'da-vedere': 'var(--voto-da-vedere)', 'non-interessa': 'var(--voto-non-interessa)' }
 
-// Barra a bolle: Home e Libreria (navigazione) · Scheda titolo · Wizard · Risultati
-export function BarraNavigazione({ attiva, onHome, onCerca, onLibreria, onCarte }) {
+// Barra a bolle: Home, Libreria e Profilo (navigazione) · Scheda titolo · Wizard · Risultati
+// Il wizard non è più nella barra (si apre dal Profilo): resta solo la pillola, al centro.
+export function BarraNavigazione({ attiva, onHome, onCerca, onLibreria, onProfilo }) {
   return (
-    <div className="barra">
+    <div className="barra" style={{ justifyContent: 'center' }}>
       <nav className="pillola-barra vetro" aria-label="Navigazione">
         <button className={`pulsante-barra${attiva === 'home' ? ' attivo' : ''}`} onClick={onHome} aria-label="Home" aria-current={attiva === 'home'}><House {...ICONA} /></button>
         <button className="pulsante-barra" onClick={onCerca} aria-label="Cerca"><Search {...ICONA} /></button>
         <button className={`pulsante-barra${attiva === 'libreria' ? ' attivo' : ''}`} onClick={onLibreria} aria-label="Libreria" aria-current={attiva === 'libreria'}><Library {...ICONA} /></button>
-        {/* Community e Profilo non sono ancora disegnate */}
+        {/* Community non è ancora disegnata */}
         <button className="pulsante-barra" disabled aria-label="Community"><Users {...ICONA} /></button>
-        <button className="pulsante-barra" disabled aria-label="Profilo"><User {...ICONA} /></button>
+        <button className={`pulsante-barra${attiva === 'profilo' ? ' attivo' : ''}`} onClick={onProfilo} aria-label="Profilo" aria-current={attiva === 'profilo'}><User {...ICONA} /></button>
       </nav>
-      <button className="bolla vetro" onClick={onCarte} aria-label="Scopri nuovi film">
-        <GalleryVerticalEnd {...ICONA} />
-      </button>
     </div>
   )
 }
