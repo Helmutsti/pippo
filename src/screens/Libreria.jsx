@@ -5,7 +5,7 @@ import Griglia from '../components/Griglia.jsx'
 import { BarraNavigazione } from '../components/Barra.jsx'
 
 // Libreria: i titoli che hai votato (Visti) e quelli da vedere, nella griglia di copertine
-export default function Libreria({ onApri, onHome, onWizard }) {
+export default function Libreria({ onApri, onHome, onWizard, onCerca }) {
   const { voti, daVedere } = useStore()
   const [scheda, setScheda] = useState('visti')
   const [filtro, setFiltro] = useState('Tutti')
@@ -41,7 +41,7 @@ export default function Libreria({ onApri, onHome, onWizard }) {
           )}
         </div>
       </div>
-      <BarraNavigazione attiva="libreria" onHome={onHome} onCarte={onWizard} />
+      <BarraNavigazione attiva="libreria" onHome={onHome} onCerca={onCerca} onCarte={onWizard} />
     </div>
   )
 }

@@ -5,6 +5,7 @@ import Home from './screens/Home.jsx'
 import Libreria from './screens/Libreria.jsx'
 import Risultati from './screens/Risultati.jsx'
 import Scheda from './screens/Scheda.jsx'
+import Cerca from './screens/Cerca.jsx'
 import Wizard from './screens/Wizard.jsx'
 import { Conferma, Filtri } from './screens/Pannelli.jsx'
 
@@ -16,8 +17,8 @@ export default function App() {
   )
 }
 
-// Home e Libreria sono le voci della barra; sopra si impilano Scheda titolo e Risultati (entrano da destra)
-// e il wizard (dissolvenza).
+// Home e Libreria sono le voci della barra; sopra si impilano Scheda titolo e Risultati (entrano da destra),
+// il wizard e Cerca (dissolvenza). Da Cerca si apre la Scheda titolo sopra la ricerca: tornando indietro si ritrova la ricerca.
 function Navigazione() {
   const { setFiltri } = useStore()
   const [voce, setVoce] = useState('home') // 'home' | 'libreria'
@@ -30,6 +31,7 @@ function Navigazione() {
   const allaHome = () => { setPannello(null); setPila([]); setVoce('home') }
   const apriScheda = (id) => apri({ nome: 'scheda', id })
   const apriWizard = () => apri({ nome: 'wizard' })
+  const apriCerca = () => apri({ nome: 'cerca' })
   // "Mostra N titoli": aggiorna i filtri e apre i Risultati (se non ci si è già)
   const applicaFiltri = (f) => {
     setFiltri(f)
@@ -40,14 +42,16 @@ function Navigazione() {
   return (
     <div className="telefono">
       {voce === 'home' ? (
-        <Home scrollRef={scrollHome} onApri={apriScheda} onFiltri={() => setPannello('filtri')} onWizard={apriWizard} onLibreria={() => setVoce('libreria')} />
+        <Home scrollRef={scrollHome} onApri={apriScheda} onFiltri={() => setPannello('filtri')} onWizard={apriWizard} onLibreria={() => setVoce('libreria')} onCerca={apriCerca} />
       ) : (
-        <Libreria onApri={apriScheda} onHome={() => setVoce('home')} onWizard={apriWizard} />
+        <Libreria onApri={apriScheda} onHome={() => setVoce('home')} onWizard={apriWizard} onCerca={apriCerca} />
       )}
 
       <AnimatePresence initial={false}>
         {pila.map((s) =>
-          s.nome === 'wizard' ? (
+          s.nome === 'cerca' ? (
+            <Cerca key={s.chiave} onChiudi={indietro} onApri={apriScheda} />
+          ) : s.nome === 'wizard' ? (
             <motion.div key={s.chiave} className="schermata" style={{ zIndex: 5 }}
               initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.96 }}
               transition={{ duration: 0.3 }}>

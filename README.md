@@ -16,7 +16,10 @@ Poi aprire l'indirizzo che compare (es. http://localhost:5173). Occupa tutto lo 
 - **Wizard** (bolla con le carte nella barra): trascina a destra = mi è piaciuto, a sinistra = non mi è piaciuto, su = successivo, giù = precedente, tocco = gira la carta. Segnalibro = da vedere. Freccia = conferma per uscire.
 - **Tastiera nel wizard:** frecce destra/sinistra (voto), giù/su (successivo/precedente), spazio (gira), B (da vedere), Esc (esci).
 
-Cerca, Libreria e Profilo non sono ancora disegnate: i loro pulsanti nella barra non fanno niente.
+- **Cerca** (lente nella barra): vetro scuro a tutto schermo con il campo in basso e la tastiera aperta. Si cerca per titolo, attori, regia. I risultati partono dal basso, divisi in "Nella tua libreria" e "Altri titoli"; segnalibro e cuore su ogni riga, tocco sulla riga → Scheda titolo (tornando indietro si ritrova la ricerca). Scorrendo la lista la tastiera si chiude; la x chiude la ricerca.
+- **Libreria** (dalla barra) e **Risultati** (da "Mostra N titoli" nei filtri).
+
+Community e Profilo non sono ancora disegnate: i loro pulsanti nella barra non fanno niente.
 
 ## Immagine Docker
 Caricando su GitHub una versione (es. `git tag v1.0.0 && git push origin v1.0.0`) parte da sola la pubblicazione dell'immagine su GitHub Container Registry, privata come il repository.

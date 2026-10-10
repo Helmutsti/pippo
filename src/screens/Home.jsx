@@ -10,7 +10,7 @@ import Fila from '../components/Fila.jsx'
 // Una frase per apertura dell'app (scelta una volta sola, anche se la Home si ridisegna)
 const frase = fraseDiOggi()
 
-export default function Home({ onApri, onFiltri, onWizard, onLibreria, scrollRef }) {
+export default function Home({ onApri, onFiltri, onWizard, onLibreria, onCerca, scrollRef }) {
   const { daVedere, nonInteressa } = useStore()
   // i titoli segnati "non mi interessa" non vengono più proposti; i filtri non toccano la Home (aprono i Risultati)
   const passa = (id) => TITOLI[id] && !nonInteressa[id]
@@ -66,7 +66,7 @@ export default function Home({ onApri, onFiltri, onWizard, onLibreria, scrollRef
           </section>
         </div>
       </div>
-      <BarraNavigazione attiva="home" onLibreria={onLibreria} onCarte={onWizard} />
+      <BarraNavigazione attiva="home" onCerca={onCerca} onLibreria={onLibreria} onCarte={onWizard} />
     </div>
   )
 }
