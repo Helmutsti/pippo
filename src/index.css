@@ -143,12 +143,14 @@ img { display: block; user-select: none; -webkit-user-drag: none; }
 .riquadro-regia-sfondo { position: absolute; inset: -60px; width: calc(100% + 120px); height: calc(100% + 120px); object-fit: cover; filter: blur(40px); opacity: 0.25; pointer-events: none; }
 .riquadro-regia-persona { position: relative; display: flex; align-items: center; gap: 16px; text-align: left; }
 /* Profilo */
-.carta-wizard { width: 100%; display: flex; align-items: center; gap: 20px; padding: 16px; border-radius: 20px; text-align: left; }
-/* il mazzo è largo quanto le carte aperte a ventaglio, così il testo non le tocca */
-/* le carte escono dal riquadro solo sopra e sotto (effetto di profondità); ai lati restano dentro il padding,
-   e il mazzo è largo quanto il ventaglio, così il testo resta a 20 */
-.carta-wizard .mazzo { position: relative; flex: none; width: 100px; height: 92px; }
-.carta-wizard .mazzo img { position: absolute; left: 17px; top: -34px; width: 70px; height: 105px; object-fit: cover; border-radius: 10px; border: 1px solid var(--vetro-bordo); box-shadow: 0 10px 24px #000000a0; }
+.carta-wizard { position: relative; width: 100%; display: flex; align-items: center; gap: 20px; padding: 16px; border-radius: 20px; text-align: left; }
+.carta-wizard > * { position: relative; }
+/* sfondo come il riquadro del regista: la copertina sfocata, tagliata dal bordo arrotondato */
+.carta-wizard > .sfondo-carta { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; }
+.sfondo-carta img { position: absolute; inset: -60px; width: calc(100% + 120px); height: calc(100% + 120px); object-fit: cover; filter: blur(40px); opacity: 0.35; }
+/* le carte escono dal riquadro a sinistra (solo loro superano il padding, il riquadro no); in alto e in basso restano dentro */
+.carta-wizard .mazzo { flex: none; width: 80px; height: 92px; }
+.carta-wizard .mazzo img { position: absolute; left: -12px; top: -6px; width: 70px; height: 105px; object-fit: cover; border-radius: 10px; border: 1px solid var(--vetro-bordo); box-shadow: 0 10px 24px #000000a0; }
 .freccia-wizard { flex: none; width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; background: var(--azione-primaria); color: var(--testo-su-chiaro); }
 .voce-profilo { width: 100%; display: flex; align-items: center; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--vetro-bordo); text-align: left; }
 .voce-profilo > .t-corpo:first-of-type { flex: 1; }

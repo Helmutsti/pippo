@@ -26,9 +26,9 @@ export default function Profilo({ onHome, onCerca, onLibreria, onWizard, onNasco
             <button className="pillola t-pillola" disabled>Modifica</button>
           </header>
 
-          {/* spazio in più sopra: le carte escono dal riquadro e non devono toccare "Modifica" */}
-          <div style={{ padding: '0 var(--spazio-pagina)', marginTop: 20 }}>
+          <div style={{ padding: '0 var(--spazio-pagina)' }}>
             <motion.button whileTap={{ scale: 0.98 }} className="carta-wizard vetro" onClick={onWizard}>
+              <span className="sfondo-carta"><img src={mazzo[2]} alt="" /></span>
               <span className="mazzo">
                 {mazzo.map((src, i) => <img key={src} src={src} alt="" style={{ transform: `translateX(${[-11, 11, 0][i]}px) rotate(${[-8, 8, 0][i]}deg)` }} />)}
               </span>
