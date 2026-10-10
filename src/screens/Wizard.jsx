@@ -170,9 +170,11 @@ export default function Wizard({ onInterrompi, inPausa }) {
     if (asse === 'y') {
       const da = Math.round(partenza)
       const spinta = posizione.get() - da
+      // anche un colpetto porta alla carta successiva o precedente, come su TikTok:
+      // la carta torna al suo posto solo se il dito si è mosso di pochissimo (meno di 12 px)
       let verso = 0
-      if (Math.abs(spinta) > 0.2) verso = Math.sign(spinta)
-      else if (Math.abs(info.velocity.y) > 500) verso = -Math.sign(info.velocity.y)
+      if (Math.abs(spinta) * PASSO_Y > 12) verso = Math.sign(spinta)
+      else if (Math.abs(info.velocity.y) > 150) verso = -Math.sign(info.velocity.y)
       vai(da + verso)
     }
   }
