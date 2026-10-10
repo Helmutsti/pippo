@@ -19,9 +19,10 @@ export function Imdb({ voto }) {
 }
 
 // Velo grigio sopra la copertina di un titolo "non mi interessa", in tutta l'app
-export function VeloNascosto({ icona = 32, style }) {
+// leggero: nei risultati di Cerca, dove il titolo si cerca apposta e la copertina deve restare riconoscibile
+export function VeloNascosto({ icona = 32, leggero, style }) {
   return (
-    <div className="velo-nascosto" style={style}>
+    <div className={`velo-nascosto${leggero ? ' leggero' : ''}`} style={style}>
       {icona && <EyeOff size={icona} color="var(--voto-non-interessa)" />}
     </div>
   )

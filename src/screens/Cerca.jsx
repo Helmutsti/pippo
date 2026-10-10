@@ -115,7 +115,7 @@ function Risultato({ t, onApri }) {
     <div className="risultato" role="button" tabIndex={0} onClick={() => onApri(t.id)}>
       <div className="risultato-copertina">
         <img src={t.poster} alt="" />
-        {nonInteressa[t.id] && <VeloNascosto icona={16} />}
+        {nonInteressa[t.id] && <VeloNascosto icona={16} leggero />}
       </div>
       <div className="risultato-testi">
         <span className="t-pulsante">{t.titolo}</span>
