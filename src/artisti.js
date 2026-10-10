@@ -66,7 +66,8 @@ const semplice = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
 const perTitolo = Object.fromEntries(Object.values(TITOLI).map((t) => [semplice(t.titolo), t.id]))
 
 // tutte le persone di un titolo: il cast e chi l'ha diretto
-const personeDi = (t) => [...cast(t).map((p) => p.nome), ...nomiRegia(t.regia)]
+// (una persona che recita e dirige lo stesso titolo conta una volta sola)
+const personeDi = (t) => [...new Set([...cast(t).map((p) => p.nome), ...nomiRegia(t.regia)])]
 
 export function fotoDi(nome) {
   if (REGISTI[nome]) return REGISTI[nome].foto
@@ -94,10 +95,10 @@ export function artista(nome) {
         .filter(([, r]) => r.length)
         .map(([g, r]) => [g, r.sort((a, b) => b.anno - a.anno)])
 
-  // con chi lavora più spesso: le persone che compaiono negli stessi titoli
+  // con chi lavora più spesso: le persone con almeno 2 titoli in comune (con uno solo non è "spesso")
   const insieme = {}
-  for (const t of [...recita, ...dirige]) for (const p of personeDi(t)) if (p !== nome) insieme[p] = (insieme[p] || 0) + 1
-  const colleghi = Object.entries(insieme).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([n, volte]) => ({ nome: n, volte, foto: fotoDi(n) }))
+  for (const t of new Set([...recita, ...dirige])) for (const p of personeDi(t)) if (p !== nome) insieme[p] = (insieme[p] || 0) + 1
+  const colleghi = Object.entries(insieme).filter(([, volte]) => volte >= 2).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([n, volte]) => ({ nome: n, volte, foto: fotoDi(n) }))
 
   // premi: solo quelli vinti, contati per nome
   const conteggio = {}
