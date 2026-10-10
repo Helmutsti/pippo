@@ -28,8 +28,9 @@ export function TestaSezione({ titolo, piccola }) {
   )
 }
 
-// Fila di copertine. Nell'angolo il voto; se non c'è, il segnalibro dei titoli da vedere
-// (non nella fila della watch list, dove sarebbe su tutti)
+// Fila di copertine. Nell'angolo il voto e il segnalibro dei titoli da vedere, affiancati come un mazzo:
+// il voto davanti, il segnalibro che spunta da dietro a sinistra.
+// Nella fila della watch list il segnalibro non si mostra, perché sarebbe su tutti.
 export function FilaCopertine({ titolo, ids, onApri, senzaSegnalibro }) {
   const { voti, daVedere } = useStore()
   return (
@@ -38,15 +39,20 @@ export function FilaCopertine({ titolo, ids, onApri, senzaSegnalibro }) {
       <Fila>
         {ids.map((id) => {
           const t = TITOLI[id]
-          const v = voti[id] || (!senzaSegnalibro && daVedere[id] && 'da-vedere')
-          const [Segno, colore] = (v && SEGNO[v]) || []
+          // dal più lontano al più vicino: prima il segnalibro, poi il voto
+          const segni = [!senzaSegnalibro && daVedere[id] && 'da-vedere', voti[id]].filter(Boolean)
           return (
             <button key={id} className="copertina-fila" onClick={() => onApri(id)}>
               <div className="img">
                 <img src={t.poster} alt="" loading="lazy" />
-                {Segno && (
-                  <span className="voto-angolo"><Segno size={16} color={colore} fill={colore} /></span>
-                )}
+                {segni.map((s, i) => {
+                  const [Segno, colore] = SEGNO[s]
+                  return (
+                    <span key={s} className="voto-angolo vetro" style={{ right: 8 + 18 * (segni.length - 1 - i) }}>
+                      <Segno size={16} color={colore} fill={colore} />
+                    </span>
+                  )
+                })}
               </div>
               <span className="t-didascalia">{t.titolo}</span>
             </button>
