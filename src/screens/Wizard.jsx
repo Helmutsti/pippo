@@ -107,12 +107,11 @@ export default function Wizard({ onInterrompi, inPausa }) {
     occupato.current = true
     ultimoVoto.current = Date.now()
     vota(id, 'non-interessa')
-    await new Promise((r) => setTimeout(r, 500))
-    await animate(comparsa, 0, { duration: 0.18, ease: 'easeIn' })
-    setIndice((i) => i + 1)
-    animate(comparsa, 1, { duration: 0.16, ease: 'easeOut' })
+    // stessa uscita del segnalibro: velo, poi la carta scorre in su e arriva la successiva
+    await new Promise((r) => setTimeout(r, 650))
+    await passaA(1)
     occupato.current = false
-  }, [id, nonInteressa, vota, alterna, comparsa])
+  }, [id, nonInteressa, vota, alterna, passaA])
 
   const scorri = useCallback(async (verso) => {
     if (occupato.current) return

@@ -37,10 +37,10 @@ export function Conferma({ onContinua, onInterrompi }) {
   )
 }
 
-export function Filtri({ onChiudi }) {
-  const { filtri, setFiltri } = useStore()
+export function Filtri({ onChiudi, onApplica }) {
+  const { filtri, nonInteressa } = useStore()
   const [bozza, setBozza] = useState(filtri)
-  const quanti = Object.values(TITOLI).filter((t) => rispettaFiltri(t, bozza)).length
+  const quanti = Object.values(TITOLI).filter((t) => !nonInteressa[t.id] && rispettaFiltri(t, bozza)).length
   const alterna = (gruppo, v) => setBozza((b) => ({ ...b, [gruppo]: b[gruppo].includes(v) ? b[gruppo].filter((x) => x !== v) : [...b[gruppo], v] }))
 
   return (
@@ -62,7 +62,7 @@ export function Filtri({ onChiudi }) {
         {FILTRI.piattaforme.map((p) => <Pillola key={p} scelta={bozza.piattaforme.includes(p)} onClick={() => alterna('piattaforme', p)}>{p}</Pillola>)}
       </Gruppo>
       <button className="pulsante principale t-pulsante" disabled={!quanti} style={{ opacity: quanti ? 1 : 0.5 }}
-        onClick={() => { setFiltri(bozza); onChiudi() }}>
+        onClick={() => onApplica(bozza)}>
         {quanti ? `Mostra ${quanti} ${quanti === 1 ? 'titolo' : 'titoli'}` : 'Nessun titolo'}
       </button>
     </Pannello>

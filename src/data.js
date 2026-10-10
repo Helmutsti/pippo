@@ -1,10 +1,12 @@
 // Dati di prova: copertine e foto da Wikipedia (bassa risoluzione, coperte da diritti, solo prototipo interno).
 // Voti IMDb e durate scritti a memoria, non verificati.
 
+import { FILM_EXTRA_IDS, SERIE_EXTRA_IDS, TITOLI_EXTRA } from './catalogo-extra.js'
+
 const p = (f) => `/img/poster/${f}`
 const a = (f) => `/img/cast/${f}`
 
-export const TITOLI = {
+const TITOLI_BASE = {
   dune: {
     id: 'dune', titolo: 'Dune – Parte Due', tipo: 'Film', anno: 2024, imdb: '8,5', minuti: 166,
     generi: ['Fantascienza', 'Avventura'], umore: ['Adrenalina', 'Da pensare'],
@@ -138,9 +140,15 @@ export const durata = (t) => {
   return h ? (m ? `${h} h ${m} min` : `${h} h`) : `${m} min`
 }
 
+// Catalogo completo: i 15 titoli di partenza + 20 film e 20 serie in più
+export const TITOLI = { ...TITOLI_BASE, ...TITOLI_EXTRA }
+
+// Titoli in più alternati film / serie, per variare le proposte
+const EXTRA = FILM_EXTRA_IDS.flatMap((film, i) => [film, SERIE_EXTRA_IDS[i]]).filter(Boolean)
+
 // Home
 // i primi 5 che rispettano i filtri
-export const SUGGERIMENTI = ['dune', 'oppenheimer', 'interstellar', 'arrival', 'bladerunner', 'fallout', 'bear', 'ripley', 'inception', 'sicario', 'dunkirk', 'prestige', 'tlou2']
+export const SUGGERIMENTI = ['dune', 'oppenheimer', 'interstellar', 'arrival', 'bladerunner', 'fallout', 'bear', 'ripley', 'inception', 'sicario', 'dunkirk', 'prestige', 'tlou2', ...EXTRA]
 export const FILE_HOME = [
   { titolo: 'Simili ai tuoi gusti', ids: ['bladerunner', 'arrival', 'sicario', 'interstellar', 'inception'] },
   { titolo: 'Dalla tua watch list', watchlist: true, ids: ['stranger', 'tlou1', 'ripley'] },
@@ -151,7 +159,9 @@ export const GENERI = ['Fantascienza', 'Thriller', 'Drammatico', 'Commedia', 'Fa
   .map((nome) => ({ nome, illustrazione: `/generi/${nome.toLowerCase()}.svg` }))
 
 // Wizard: titoli da scoprire, uno alla volta
-export const WIZARD = ['dune', 'stranger', 'oppenheimer', 'interstellar', 'fallout', 'inception', 'bear', 'sicario', 'ripley', 'dunkirk']
+// tutto il catalogo: prima i titoli di partenza, poi quelli in più
+export const WIZARD = ['dune', 'stranger', 'oppenheimer', 'interstellar', 'fallout', 'inception', 'bear', 'sicario', 'ripley', 'dunkirk', ...EXTRA,
+  ...Object.keys(TITOLI_BASE).filter((id) => !['dune', 'stranger', 'oppenheimer', 'interstellar', 'fallout', 'inception', 'bear', 'sicario', 'ripley', 'dunkirk'].includes(id))]
 
 // Filtri
 export const FILTRI = {

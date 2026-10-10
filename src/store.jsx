@@ -7,7 +7,8 @@ const Ctx = createContext(null)
 // Il voto (like o dislike, uno esclude l'altro), "da vedere" e "non mi interessa" sono indipendenti;
 // "non mi interessa" ha la precedenza: quei titoli non vengono più proposti (Home, titoli simili, wizard).
 export function StoreProvider({ children }) {
-  const [voti, setVoti] = useState({})
+  // qualche voto di partenza, per avere una Libreria da sfogliare
+  const [voti, setVoti] = useState({ bladerunner: 'like', arrival: 'like', sicario: 'dislike', interstellar: 'like', ripley: 'dislike', bear: 'like' })
   const [daVedere, setDaVedere] = useState({ stranger: true, tlou1: true, ripley: true })
   const [nonInteressa, setNonInteressa] = useState({})
   const [filtri, setFiltri] = useState(FILTRI_VUOTI)

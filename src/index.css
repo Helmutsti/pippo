@@ -135,6 +135,21 @@ img { display: block; user-select: none; -webkit-user-drag: none; }
 .genere img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .genere span { position: absolute; left: 12px; bottom: 10px; }
 
+/* Griglia di copertine (Libreria, Risultati) */
+.griglia { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--spazio-elemento); row-gap: var(--spazio-blocco); padding: 0 var(--spazio-pagina); }
+.elemento-griglia { display: flex; flex-direction: column; gap: 8px; text-align: left; min-width: 0; }
+.elemento-griglia .img { position: relative; aspect-ratio: 2 / 3; border-radius: var(--raggio-copertina-piccola); overflow: hidden; background: var(--superficie-pannello); }
+.elemento-griglia img { width: 100%; height: 100%; object-fit: cover; }
+.elemento-griglia > span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* Schede Visti / Da vedere */
+.schede { display: flex; padding: 4px; gap: 4px; border-radius: var(--raggio-pillola); }
+.scheda { flex: 1; height: 44px; border-radius: var(--raggio-pillola); color: var(--testo-secondario); transition: background var(--durata-rapida), color var(--durata-rapida); }
+.scheda.scelta { background: var(--azione-primaria); color: var(--testo-su-chiaro); }
+
+/* Filtro attivo nei Risultati: si tocca per toglierlo */
+.filtro-attivo { display: inline-flex; align-items: center; gap: var(--spazio-icona); padding: 8px 12px 8px 16px; border-radius: var(--raggio-pillola); background: var(--azione-primaria); color: var(--testo-su-chiaro); white-space: nowrap; }
+
 /* Pannello dal basso */
 .velo-pannello { position: absolute; inset: 0; background: var(--velo-scuro); z-index: 40; }
 .pannello { position: absolute; left: 0; right: 0; bottom: 0; z-index: 41; background: var(--superficie-pannello); border-radius: var(--raggio-carta) var(--raggio-carta) 0 0; padding: 12px var(--spazio-pagina) var(--area-sicura-basso); display: flex; flex-direction: column; gap: var(--spazio-gruppo); }

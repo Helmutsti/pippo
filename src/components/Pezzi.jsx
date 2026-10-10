@@ -37,31 +37,37 @@ export function TestaSezione({ titolo, piccola }) {
   )
 }
 
-// Fila di copertine. Nell'angolo il voto e il segnalibro dei titoli da vedere, affiancati come un mazzo:
-// il voto davanti, il segnalibro che spunta da dietro a sinistra.
-// Nella fila della watch list il segnalibro non si mostra, perché sarebbe su tutti.
-export function FilaCopertine({ titolo, ids, onApri, senzaSegnalibro }) {
+// Segni sull'angolo di una copertina: il voto e il segnalibro dei titoli da vedere, affiancati come un mazzo
+// (il voto davanti, il segnalibro che spunta da dietro a sinistra). "Non mi interessa" copre tutto col velo grigio.
+// Dove il segnalibro sarebbe su tutte le copertine (watch list) non si mostra.
+export function SegniAngolo({ id, senzaSegnalibro }) {
   const { voti, daVedere, nonInteressa } = useStore()
+  if (nonInteressa[id]) return <VeloNascosto />
+  // dal più lontano al più vicino: prima il segnalibro, poi il voto
+  const segni = [!senzaSegnalibro && daVedere[id] && 'da-vedere', voti[id]].filter(Boolean)
+  return segni.map((s, i) => {
+    const [Segno, colore] = SEGNO[s]
+    return (
+      <span key={s} className="voto-angolo vetro" style={{ right: 8 + 18 * (segni.length - 1 - i) }}>
+        <Segno size={16} color={colore} fill={colore} />
+      </span>
+    )
+  })
+}
+
+// Fila di copertine che scorre in orizzontale
+export function FilaCopertine({ titolo, ids, onApri, senzaSegnalibro }) {
   return (
     <section className="sezione-fila">
       <TestaSezione titolo={titolo} />
       <Fila>
         {ids.map((id) => {
           const t = TITOLI[id]
-          // dal più lontano al più vicino: prima il segnalibro, poi il voto
-          const segni = [!senzaSegnalibro && daVedere[id] && 'da-vedere', voti[id]].filter(Boolean)
           return (
             <button key={id} className="copertina-fila" onClick={() => onApri(id)}>
               <div className="img">
                 <img src={t.poster} alt="" loading="lazy" />
-                {nonInteressa[id] ? <VeloNascosto /> : segni.map((s, i) => {
-                  const [Segno, colore] = SEGNO[s]
-                  return (
-                    <span key={s} className="voto-angolo vetro" style={{ right: 8 + 18 * (segni.length - 1 - i) }}>
-                      <Segno size={16} color={colore} fill={colore} />
-                    </span>
-                  )
-                })}
+                <SegniAngolo id={id} senzaSegnalibro={senzaSegnalibro} />
               </div>
               <span className="t-didascalia">{t.titolo}</span>
             </button>

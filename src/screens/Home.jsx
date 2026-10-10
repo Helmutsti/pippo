@@ -1,19 +1,19 @@
-import { FILE_HOME, FILTRI_VUOTI, GENERI, SUGGERIMENTI, TITOLI, fraseDiOggi, rispettaFiltri } from '../data.js'
+import { FILE_HOME, GENERI, SUGGERIMENTI, TITOLI, fraseDiOggi } from '../data.js'
 import { useStore } from '../store.jsx'
 import Carosello from '../components/Carosello.jsx'
 import { FilaCopertine, TestaSezione } from '../components/Pezzi.jsx'
-import { BarraHome } from '../components/Barra.jsx'
+import { BarraNavigazione } from '../components/Barra.jsx'
 import Fila from '../components/Fila.jsx'
 
 // Una frase per apertura dell'app (scelta una volta sola, anche se la Home si ridisegna)
 const frase = fraseDiOggi()
 
-export default function Home({ onApri, onFiltri, onWizard, scrollRef }) {
-  const { daVedere, nonInteressa, filtri, setFiltri } = useStore()
-  // i titoli segnati "non mi interessa" non vengono più proposti
-  const passa = (id) => TITOLI[id] && !nonInteressa[id] && rispettaFiltri(TITOLI[id], filtri)
+export default function Home({ onApri, onFiltri, onWizard, onLibreria, scrollRef }) {
+  const { daVedere, nonInteressa } = useStore()
+  // i titoli segnati "non mi interessa" non vengono più proposti; i filtri non toccano la Home (aprono i Risultati)
+  const passa = (id) => TITOLI[id] && !nonInteressa[id]
   const suggerimenti = SUGGERIMENTI.filter(passa).slice(0, 5)
-  const watchlist = Object.keys(daVedere)
+  const watchlist = Object.keys(daVedere).filter(passa)
 
   return (
     <div className="schermata">
@@ -25,14 +25,7 @@ export default function Home({ onApri, onFiltri, onWizard, scrollRef }) {
           </header>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spazio-gruppo)' }}>
-            {suggerimenti.length ? (
-              <Carosello key={suggerimenti.join()} ids={suggerimenti} onApri={onApri} />
-            ) : (
-              <div style={{ padding: '40px var(--spazio-pagina)', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 16 }}>
-                <p className="t-corpo c-sec">Nessun titolo per i filtri scelti.</p>
-                <button className="pulsante secondario t-pulsante" onClick={() => setFiltri(FILTRI_VUOTI)}>Azzera i filtri</button>
-              </div>
-            )}
+            {suggerimenti.length > 0 && <Carosello key={suggerimenti.join()} ids={suggerimenti} onApri={onApri} />}
             <div style={{ padding: '0 var(--spazio-pagina)' }}>
               <button className="pulsante principale t-pulsante" onClick={onFiltri}>Non sai cosa scegliere?</button>
             </div>
@@ -58,7 +51,7 @@ export default function Home({ onApri, onFiltri, onWizard, scrollRef }) {
           </section>
         </div>
       </div>
-      <BarraHome onCarte={onWizard} />
+      <BarraNavigazione attiva="home" onLibreria={onLibreria} onCarte={onWizard} />
     </div>
   )
 }

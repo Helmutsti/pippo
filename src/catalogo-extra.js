@@ -8,11 +8,11 @@ export const TITOLI_EXTRA = {
   parasite: {
     id: 'parasite', titolo: 'Parasite', tipo: 'Film', anno: 2019, imdb: '8,5', minuti: 132,
     generi: ['Thriller', 'Drammatico'], umore: ['Da pensare', 'Drammatico'],
-    regia: 'Bong Joon-ho', piattaforme: ['Prime Video', 'NOW'], poster: p('parasite.jpg'),
+    regia: 'Bong Joon-ho', piattaforme: ['Prime Video', 'NOW'], poster: p('parasite.png'),
     trama: "La povera famiglia Kim si infiltra, un membro alla volta, nella lussuosa casa dei ricchi Park. Ma la villa nasconde un segreto che farà precipitare tutto.",
     cast: [
-      ['Song Kang-ho', 'Kim Ki-taek', 'songkangho.jpg'], ['Lee Sun-kyun', 'Park Dong-ik', 'leesunkyun.jpg'],
-      ['Cho Yeo-jeong', 'Park Yeon-kyo', 'choyeojeong.jpg'], ['Choi Woo-shik', 'Kim Ki-woo', 'choiwooshik.jpg'],
+      ['Song Kang-ho', 'Kim Ki-taek', 'songkangho.jpg'], ['Lee Sun-kyun', 'Park Dong-ik', 'leesunkyun.png'],
+      ['Cho Yeo-jeong', 'Park Yeon-kyo', 'choyeojeong.jpg'], ['Choi Woo-shik', 'Kim Ki-woo', 'choiwooshik.png'],
       ['Park So-dam', 'Kim Ki-jung', 'parksodam.jpg'],
     ],
     simili: ['getout', 'squidgame', 'knivesout'],
@@ -20,7 +20,7 @@ export const TITOLI_EXTRA = {
   getout: {
     id: 'getout', titolo: 'Scappa – Get Out', tipo: 'Film', anno: 2017, imdb: '7,8', minuti: 104,
     generi: ['Horror', 'Thriller'], umore: ['Horror', 'Da pensare'],
-    regia: 'Jordan Peele', piattaforme: ['Netflix', 'NOW'], poster: p('getout.jpg'),
+    regia: 'Jordan Peele', piattaforme: ['Netflix', 'NOW'], poster: p('getout.png'),
     trama: "Chris va a conoscere i genitori della fidanzata Rose nella loro villa di campagna. L'accoglienza è calorosa, fin troppo, e presto capisce che qualcosa non va.",
     cast: [
       ['Daniel Kaluuya', 'Chris Washington', 'kaluuya.jpg'], ['Allison Williams', 'Rose Armitage', 'williams.jpg'],
@@ -32,7 +32,7 @@ export const TITOLI_EXTRA = {
   hereditary: {
     id: 'hereditary', titolo: 'Hereditary – Le radici del male', tipo: 'Film', anno: 2018, imdb: '7,3', minuti: 127,
     generi: ['Horror', 'Drammatico'], umore: ['Horror', 'Drammatico'],
-    regia: 'Ari Aster', piattaforme: ['Prime Video'], poster: p('hereditary.jpg'),
+    regia: 'Ari Aster', piattaforme: ['Prime Video'], poster: p('hereditary.png'),
     trama: "Dopo la morte della nonna, la famiglia Graham comincia a scoprire inquietanti segreti sulle proprie origini. Il lutto si trasforma in un incubo senza via d'uscita.",
     cast: [
       ['Toni Collette', 'Annie Graham', 'collette.jpg'], ['Alex Wolff', 'Peter Graham', 'wolff.jpg'],
@@ -44,7 +44,7 @@ export const TITOLI_EXTRA = {
   quietplace: {
     id: 'quietplace', titolo: 'A Quiet Place – Un posto tranquillo', tipo: 'Film', anno: 2018, imdb: '7,5', minuti: 90,
     generi: ['Horror', 'Fantascienza'], umore: ['Horror', 'Adrenalina'],
-    regia: 'John Krasinski', piattaforme: ['Prime Video', 'NOW'], poster: p('quietplace.jpg'),
+    regia: 'John Krasinski', piattaforme: ['Prime Video', 'NOW'], poster: p('quietplace.png'),
     trama: "In un mondo invaso da creature che cacciano seguendo il suono, la famiglia Abbott sopravvive in assoluto silenzio. Un solo rumore può essere fatale.",
     cast: [
       ['Emily Blunt', 'Evelyn Abbott', 'blunt.jpg'], ['John Krasinski', 'Lee Abbott', 'krasinski.jpg'],
@@ -55,7 +55,7 @@ export const TITOLI_EXTRA = {
   lalaland: {
     id: 'lalaland', titolo: 'La La Land', tipo: 'Film', anno: 2016, imdb: '8,0', minuti: 128,
     generi: ['Romantico', 'Drammatico'], umore: ['Romantico', 'Spensierato'],
-    regia: 'Damien Chazelle', piattaforme: ['Netflix', 'Prime Video'], poster: p('lalaland.jpg'),
+    regia: 'Damien Chazelle', piattaforme: ['Netflix', 'Prime Video'], poster: p('lalaland.png'),
     trama: "A Los Angeles un pianista jazz e un'aspirante attrice si innamorano mentre inseguono i propri sogni. Ma il successo chiede a entrambi di scegliere.",
     cast: [
       ['Ryan Gosling', 'Sebastian', 'gosling.jpg'], ['Emma Stone', 'Mia', 'stone.jpg'],
@@ -67,7 +67,7 @@ export const TITOLI_EXTRA = {
   spiderverse: {
     id: 'spiderverse', titolo: 'Spider-Man: Un nuovo universo', tipo: 'Film', anno: 2018, imdb: '8,4', minuti: 117,
     generi: ['Animazione', 'Avventura'], umore: ['Spensierato', 'Adrenalina'],
-    regia: 'Bob Persichetti, Peter Ramsey, Rodney Rothman', piattaforme: ['Netflix', 'Disney+'], poster: p('spiderverse.jpg'),
+    regia: 'Bob Persichetti, Peter Ramsey, Rodney Rothman', piattaforme: ['Netflix', 'Disney+'], poster: p('spiderverse.png'),
     trama: "Il giovane Miles Morales diventa Spider-Man e scopre di non essere l'unico: altri Uomini Ragno arrivano da universi paralleli per fermare una minaccia comune.",
     cast: [
       ['Shameik Moore', 'Miles Morales', 'moore.jpg'], ['Hailee Steinfeld', 'Gwen Stacy', 'steinfeld.jpg'],
@@ -174,7 +174,7 @@ export const TITOLI_EXTRA = {
   cmbyn: {
     id: 'cmbyn', titolo: 'Chiamami col tuo nome', tipo: 'Film', anno: 2017, imdb: '7,8', minuti: 132,
     generi: ['Romantico', 'Drammatico'], umore: ['Romantico', 'Drammatico'],
-    regia: 'Luca Guadagnino', piattaforme: ['Netflix', 'RaiPlay'], poster: p('cmbyn.jpg'),
+    regia: 'Luca Guadagnino', piattaforme: ['Netflix', 'RaiPlay'], poster: p('cmbyn.png'),
     trama: "Estate 1983, nella campagna lombarda. Il diciassettenne Elio si innamora di Oliver, lo studente americano ospite della sua famiglia.",
     cast: [
       ['Timothée Chalamet', 'Elio Perlman', 'chalamet.jpg'], ['Armie Hammer', 'Oliver', 'hammer.jpg'],
@@ -188,8 +188,8 @@ export const TITOLI_EXTRA = {
     regia: 'Joseph Kosinski', piattaforme: ['Prime Video', 'NOW'], poster: p('topgun.jpg'),
     trama: "Dopo oltre trent'anni di servizio Pete \"Maverick\" Mitchell torna alla Top Gun per addestrare un gruppo di giovani piloti a una missione quasi impossibile.",
     cast: [
-      ['Tom Cruise', 'Pete "Maverick" Mitchell', 'cruise.jpg'], ['Miles Teller', 'Bradley "Rooster" Bradshaw', 'teller.jpg'],
-      ['Jennifer Connelly', 'Penny Benjamin', 'connelly.jpg'], ['Jon Hamm', 'Beau "Cyclone" Simpson', 'hamm.jpg'],
+      ['Tom Cruise', 'Pete "Maverick" Mitchell', 'cruise.jpg'], ['Miles Teller', 'Bradley "Rooster" Bradshaw', 'teller.png'],
+      ['Jennifer Connelly', 'Penny Benjamin', 'connelly.png'], ['Jon Hamm', 'Beau "Cyclone" Simpson', 'hamm.jpg'],
       ['Glen Powell', 'Jake "Hangman" Seresin', 'powell.jpg'], ['Val Kilmer', 'Tom "Iceman" Kazansky', 'kilmer.jpg'],
     ],
     simili: ['dunkirk', 'madmax', 'fallout'],
@@ -197,7 +197,7 @@ export const TITOLI_EXTRA = {
   freesolo: {
     id: 'freesolo', titolo: 'Free Solo', tipo: 'Film', anno: 2018, imdb: '8,1', minuti: 100,
     generi: ['Documentario', 'Avventura'], umore: ['Adrenalina', 'Da pensare'],
-    regia: 'Jimmy Chin, Elizabeth Chai Vasarhelyi', piattaforme: ['Disney+'], poster: p('freesolo.jpg'),
+    regia: 'Jimmy Chin, Elizabeth Chai Vasarhelyi', piattaforme: ['Disney+'], poster: p('freesolo.png'),
     trama: "Lo scalatore Alex Honnold si prepara a salire in solitaria e senza corde la parete di El Capitan, nel parco di Yosemite.",
     cast: [
       ['Alex Honnold', 'Sé stesso', 'honnold.jpg'], ['Tommy Caldwell', 'Sé stesso', 'caldwell.jpg'],
@@ -224,7 +224,7 @@ export const TITOLI_EXTRA = {
     trama: "Il programmatore Caleb viene invitato nella villa isolata del suo capo per valutare Ava, un'intelligenza artificiale dall'aspetto umano. Ma chi sta mettendo alla prova chi?",
     cast: [
       ['Domhnall Gleeson', 'Caleb', 'gleeson.jpg'], ['Alicia Vikander', 'Ava', 'vikander.jpg'],
-      ['Oscar Isaac', 'Nathan', 'isaac.jpg'], ['Sonoya Mizuno', 'Kyoko', 'mizuno.jpg'],
+      ['Oscar Isaac', 'Nathan', 'isaac.jpg'], ['Sonoya Mizuno', 'Kyoko', 'mizuno.png'],
     ],
     simili: ['arrival', 'westworld', 'bladerunner'],
   },
@@ -236,7 +236,7 @@ export const TITOLI_EXTRA = {
     cast: [
       ['Robert Pattinson', 'Bruce Wayne / Batman', 'pattinson.jpg'], ['Zoë Kravitz', 'Selina Kyle', 'kravitz.jpg'],
       ['Paul Dano', 'Enigmista', 'dano.jpg'], ['Jeffrey Wright', 'James Gordon', 'wright.jpg'],
-      ['Colin Farrell', 'Pinguino', 'farrell.jpg'], ['Andy Serkis', 'Alfred', 'serkis.jpg'],
+      ['Colin Farrell', 'Pinguino', 'farrell.jpg'], ['Andy Serkis', 'Alfred', 'serkis.png'],
     ],
     simili: ['johnwick4', 'fargo', 'prestige'],
   },
@@ -245,11 +245,11 @@ export const TITOLI_EXTRA = {
   squidgame: {
     id: 'squidgame', titolo: 'Squid Game', tipo: 'Serie', anno: 2021, imdb: '8,0', minuti: 55,
     generi: ['Thriller', 'Drammatico'], umore: ['Adrenalina', 'Da pensare'],
-    ideata: 'Hwang Dong-hyuk', piattaforme: ['Netflix'], poster: p('squidgame.jpg'),
+    ideata: 'Hwang Dong-hyuk', piattaforme: ['Netflix'], poster: p('squidgame.png'),
     trama: "Centinaia di persone sommerse dai debiti accettano di partecipare a misteriosi giochi per bambini con un premio enorme in palio. Chi perde, muore.",
     cast: [
       ['Lee Jung-jae', 'Seong Gi-hun', 'leejungjae.jpg'], ['Park Hae-soo', 'Cho Sang-woo', 'parkhaesoo.jpg'],
-      ['Wi Ha-joon', 'Hwang Jun-ho', 'wihajoon.jpg'], ['Jung Ho-yeon', 'Kang Sae-byeok', 'junghoyeon.jpg'],
+      ['Wi Ha-joon', 'Hwang Jun-ho', 'wihajoon.png'], ['Jung Ho-yeon', 'Kang Sae-byeok', 'junghoyeon.jpg'],
       ['Lee Byung-hun', 'Il Front Man', 'leebyunghun.jpg'],
     ],
     simili: ['parasite', 'reacher', 'westworld'],
@@ -269,10 +269,10 @@ export const TITOLI_EXTRA = {
   westworld: {
     id: 'westworld', titolo: 'Westworld – Dove tutto è concesso', tipo: 'Serie', anno: 2016, imdb: '8,5', minuti: 60,
     generi: ['Fantascienza', 'Thriller'], umore: ['Fantascienza', 'Da pensare'],
-    ideata: 'Jonathan Nolan, Lisa Joy', piattaforme: ['NOW'], poster: p('westworld.jpg'),
+    ideata: 'Jonathan Nolan, Lisa Joy', piattaforme: ['NOW'], poster: p('westworld.png'),
     trama: "In un parco a tema ambientato nel vecchio West, ospiti facoltosi vivono ogni fantasia tra androidi indistinguibili dagli umani. Finché alcuni di loro cominciano a ricordare.",
     cast: [
-      ['Evan Rachel Wood', 'Dolores Abernathy', 'wood.jpg'], ['Thandiwe Newton', 'Maeve Millay', 'newton.jpg'],
+      ['Evan Rachel Wood', 'Dolores Abernathy', 'wood.jpg'], ['Thandiwe Newton', 'Maeve Millay', 'newton.png'],
       ['Jeffrey Wright', 'Bernard Lowe', 'wright.jpg'], ['Ed Harris', "L'uomo in nero", 'harris.jpg'],
       ['Anthony Hopkins', 'Robert Ford', 'hopkins.jpg'], ['James Marsden', 'Teddy Flood', 'marsden.jpg'],
     ],
@@ -329,7 +329,7 @@ export const TITOLI_EXTRA = {
   bettercallsaul: {
     id: 'bettercallsaul', titolo: 'Better Call Saul', tipo: 'Serie', anno: 2015, imdb: '9,0', minuti: 50,
     generi: ['Crime', 'Drammatico'], umore: ['Drammatico', 'Da pensare'],
-    ideata: 'Vince Gilligan, Peter Gould', piattaforme: ['Netflix'], poster: p('bettercallsaul.jpg'),
+    ideata: 'Vince Gilligan, Peter Gould', piattaforme: ['Netflix'], poster: p('bettercallsaul.png'),
     trama: "Prima di diventare Saul Goodman, l'avvocato Jimmy McGill lotta per farsi strada ad Albuquerque, diviso tra il desiderio di rigare dritto e il talento per la truffa.",
     cast: [
       ['Bob Odenkirk', 'Jimmy McGill', 'odenkirk.jpg'], ['Rhea Seehorn', 'Kim Wexler', 'seehorn.jpg'],
@@ -341,7 +341,7 @@ export const TITOLI_EXTRA = {
   mare: {
     id: 'mare', titolo: 'Omicidio a Easttown', tipo: 'Serie', anno: 2021, imdb: '8,4', minuti: 60,
     generi: ['Crime', 'Drammatico'], umore: ['Drammatico', 'Da pensare'],
-    ideata: 'Brad Ingelsby', piattaforme: ['NOW'], poster: p('mare.jpg'),
+    ideata: 'Brad Ingelsby', piattaforme: ['NOW'], poster: p('mare.png'),
     trama: "In una cittadina della Pennsylvania la detective Mare Sheehan indaga sull'omicidio di una giovane madre, mentre la sua vita privata va in pezzi.",
     cast: [
       ['Kate Winslet', 'Mare Sheehan', 'winslet.jpg'], ['Julianne Nicholson', 'Lori Ross', 'nicholson.jpg'],
@@ -365,11 +365,11 @@ export const TITOLI_EXTRA = {
   bridgerton: {
     id: 'bridgerton', titolo: 'Bridgerton', tipo: 'Serie', anno: 2020, imdb: '7,3', minuti: 60,
     generi: ['Romantico', 'Drammatico'], umore: ['Romantico', 'Spensierato'],
-    ideata: 'Chris Van Dusen', piattaforme: ['Netflix'], poster: p('bridgerton.jpg'),
+    ideata: 'Chris Van Dusen', piattaforme: ['Netflix'], poster: p('bridgerton.png'),
     trama: "Nella Londra dell'Ottocento la famiglia Bridgerton affronta la stagione dei debutti in società, tra balli, scandali e i pettegolezzi della misteriosa Lady Whistledown.",
     cast: [
       ['Phoebe Dynevor', 'Daphne Bridgerton', 'dynevor.jpg'], ['Regé-Jean Page', 'Simon Basset', 'page.jpg'],
-      ['Jonathan Bailey', 'Anthony Bridgerton', 'bailey.jpg'], ['Nicola Coughlan', 'Penelope Featherington', 'coughlan.jpg'],
+      ['Jonathan Bailey', 'Anthony Bridgerton', 'bailey.jpg'], ['Nicola Coughlan', 'Penelope Featherington', 'coughlan.png'],
       ['Adjoa Andoh', 'Lady Danbury', 'andoh.jpg'],
     ],
     simili: ['cmbyn', 'thecrown', 'lalaland'],
@@ -382,7 +382,6 @@ export const TITOLI_EXTRA = {
     cast: [
       ['Steve Martin', 'Charles-Haden Savage', 'martin.jpg'], ['Martin Short', 'Oliver Putnam', 'short.jpg'],
       ['Selena Gomez', 'Mabel Mora', 'gomez.jpg'], ['Amy Ryan', 'Jan Bellows', 'ryan.jpg'],
-      ['Aaron Domínguez', 'Oscar Torres', 'dominguez.jpg'],
     ],
     simili: ['knivesout', 'tedlasso', 'bear'],
   },
@@ -424,7 +423,7 @@ export const TITOLI_EXTRA = {
   witcher: {
     id: 'witcher', titolo: 'The Witcher', tipo: 'Serie', anno: 2019, imdb: '8,0', minuti: 60,
     generi: ['Fantastico', 'Azione'], umore: ['Adrenalina'],
-    ideata: 'Lauren Schmidt Hissrich', piattaforme: ['Netflix'], poster: p('witcher.jpg'),
+    ideata: 'Lauren Schmidt Hissrich', piattaforme: ['Netflix'], poster: p('witcher.png'),
     trama: "Geralt di Rivia, cacciatore di mostri, viaggia in un continente in guerra. Il suo destino è legato a quello della potente maga Yennefer e della giovane principessa Ciri.",
     cast: [
       ['Henry Cavill', 'Geralt di Rivia', 'cavill.jpg'], ['Anya Chalotra', 'Yennefer', 'chalotra.jpg'],
@@ -439,14 +438,14 @@ export const TITOLI_EXTRA = {
     trama: "L'ex investigatore militare Jack Reacher arriva in una cittadina della Georgia e viene arrestato per un omicidio che non ha commesso. Per uscirne dovrà scoprire chi lo ha incastrato.",
     cast: [
       ['Alan Ritchson', 'Jack Reacher', 'ritchson.jpg'], ['Malcolm Goodwin', 'Oscar Finlay', 'goodwin.jpg'],
-      ['Willa Fitzgerald', 'Roscoe Conklin', 'fitzgerald.jpg'], ['Maria Sten', 'Frances Neagley', 'sten.jpg'],
+      ['Willa Fitzgerald', 'Roscoe Conklin', 'fitzgerald.jpg'], ['Bruce McGill', 'Grover Teale', 'mcgill.jpg'],
     ],
     simili: ['johnwick4', 'theboys', 'sicario'],
   },
   theboys: {
     id: 'theboys', titolo: 'The Boys', tipo: 'Serie', anno: 2019, imdb: '8,7', minuti: 60,
     generi: ['Azione', 'Commedia'], umore: ['Adrenalina', 'Commedia'],
-    ideata: 'Eric Kripke', piattaforme: ['Prime Video'], poster: p('theboys.jpg'),
+    ideata: 'Eric Kripke', piattaforme: ['Prime Video'], poster: p('theboys.png'),
     trama: "In un mondo dove i supereroi sono celebrità corrotte gestite da una multinazionale, un gruppo di vigilanti decide di smascherarli.",
     cast: [
       ['Karl Urban', 'Billy Butcher', 'urban.jpg'], ['Jack Quaid', 'Hughie Campbell', 'quaid.jpg'],
