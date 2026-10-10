@@ -10,8 +10,15 @@ import { useSchermo } from '../schermo.js'
 // Wizard per scoprire nuovi titoli.
 // Gesti per direzione del dito: destra = mi è piaciuto, sinistra = non mi è piaciuto,
 // su = successivo, giù = precedente; tocco = gira la carta. Da tastiera: frecce, spazio, B, Esc.
-// Carta: 12 dai lati, 104 dall'alto, 108 dal fondo (come nel disegno a 393 × 852)
-const misureCarta = ({ larghezza, altezza }) => ({ x: 12, y: 104, w: larghezza - 24, h: altezza - 104 - 108 })
+// Carta: la copertina intera (2:3, mai tagliata), la più grande che sta tra la barra di stato e la barra in basso,
+// al centro dello spazio libero. Intorno la stessa copertina sfocata e scurita riempie lo schermo.
+const ALTO = 54 // area sicura in alto
+const misureCarta = ({ larghezza, altezza }) => {
+  const basso = altezza - 16 - 56 - 16 // sopra la barra
+  const h = Math.min(Math.round((larghezza - 24) * 1.5), basso - ALTO - 24)
+  const w = Math.round(h / 1.5)
+  return { x: Math.round((larghezza - w) / 2), y: Math.round(ALTO + (basso - ALTO - h) / 2), w, h }
+}
 const SOGLIA_X = 110
 const SOGLIA_Y = 90
 const MOLLA = { type: 'spring', stiffness: 320, damping: 34 }
@@ -35,7 +42,8 @@ export default function Wizard({ onInterrompi, inPausa }) {
   const ultimoVoto = useRef(0)
   const schermo = useSchermo()
   const CARTA = misureCarta(schermo)
-  const PASSO_Y = CARTA.h + 12
+  // la carta che se ne va esce tutta dallo schermo e quella che arriva parte da fuori
+  const PASSO_Y = Math.max(CARTA.y + CARTA.h, schermo.altezza - CARTA.y)
 
   // Quando cambia carta, la nuova prende il posto della vecchia senza salti
   useLayoutEffect(() => { x.set(0); y.set(0); setGirata(false); setSegnalibro(false) }, [indice, x, y])
@@ -114,6 +122,12 @@ export default function Wizard({ onInterrompi, inPausa }) {
 
   return (
     <div className="schermata">
+      {/* Prolungamento: la copertina della carta attiva, sfocata e scurita, su tutto lo schermo */}
+      <AnimatePresence initial={false}>
+        <motion.img key={id} src={TITOLI[id].poster} alt="" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}
+          style={{ position: 'absolute', inset: -80, width: 'calc(100% + 160px)', height: 'calc(100% + 160px)', objectFit: 'cover', filter: 'blur(40px)' }} />
+      </AnimatePresence>
+      <div style={{ position: 'absolute', inset: 0, background: 'var(--velo-scuro)' }} />
       {[-1, 0, 1].map((d) => {
         const tid = titoloA(indice + d)
         return (
